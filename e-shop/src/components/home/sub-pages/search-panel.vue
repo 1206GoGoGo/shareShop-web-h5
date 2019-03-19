@@ -8,15 +8,23 @@
                 left-text="back"
                 @click-left="goBack">
                 
-                <van-search slot="title"  placeholder="请输入搜索关键词" v-model="searchContent">
+                <van-search slot="title"  placeholder=" Enter the keyword" v-model="searchContent">
                 </van-search>
                 <van-button class="search-action" 
                                 slot="right" 
-                                @click="onSearch" 
+                                @click="handleSearch" 
                                  plain size="small" type="info">
                                 Search
                 </van-button>
+
+                <router-view></router-view>
         </van-nav-bar>
+        
+        <div class="panel-with-nav-bar">
+            <search-history ref="searchHistory" @do-search="handleTagClick"></search-history>
+            
+
+        </div>
 
 
     </van-popup>
@@ -27,6 +35,8 @@
 </template>
 
 <script>
+import SearchHistory from "@/components/home/sub-pages/base-components/search/search-history"
+
 export default {
     model:{
         prop:'visible',
@@ -37,11 +47,15 @@ export default {
             type:Boolean,
             default:false,
         },
-        searchContent:'',
+        
+    },
+    components:{
+        SearchHistory,
     },
     data:function(){
         return{
             thisVisible:this.visible,
+            searchContent:'',
         }
     },
     watch:{
@@ -58,9 +72,53 @@ export default {
         goBack:function(){
            this.thisVisible=false;
         },
-        onSearch:function(){
+        //handle child component search-history's emit event 
+        handleTagClick:function(val){
+            console.log("clicked search tag value:"+val);
+            this.searchContent=val;
+            this.handleSearch();
+        },
+   
+        //do search options
+        handleSearch:function(){
+            if(this.searchContent==''){
+                console.log("please input the search value")
+                return;
+            }
+            else{
+                var storage=window.localStorage;
+                var searchHistoryList=JSON.parse(storage.getItem("search-history")||'[]');
+                var searchValueIndex=searchHistoryList.indexOf(this.searchContent);
+                if(searchValueIndex===-1){
+                    //搜索内容不重复时
+                    searchHistoryList.unshift(this.searchContent);
+                }
+                else{
+                    searchHistoryList.splice(searchValueIndex,1);
+                    searchHistoryList.unshift(this.searchContent);
+                }
+                
+                var searchHistoryListStr=JSON.stringify(searchHistoryList);
+                storage.setItem("search-history",searchHistoryListStr);
+                
+                this.doSearch();
+                this.updateSearchHistoryPal();
+            }
+        },
+
+        //update component search-history state
+        updateSearchHistoryPal:function(){
+            //console.log(this.$children[0]);
+            this.$refs.searchHistory.updateList();
+        },
+
+        //search options
+        doSearch:function(){
+
+
 
         }
+
     }
     
 }
@@ -72,7 +130,6 @@ export default {
         max-width: 65%;
         height:46px;
         
-        
         .van-search{
             position:relative;
             top:23px;
@@ -80,7 +137,6 @@ export default {
             padding:0px;
            
         }
-        
     }
 
     .van-nav-bar__right{

@@ -16,18 +16,22 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
- 
   
-}
-.van-tabs{
+  .van-tabs{
         .van-tab{
-          margin-left:5px;
+        margin-left:5px;
         margin-right:20px;
         }
     }
+
 .panel-with-nav-bar{
-    margin-top:46px;
-    height:100%-46px;
+    margin-top:@panel-with-nav-bar-mgt;
+   
+   
 }
+  
+}
+
+
   
 </style>

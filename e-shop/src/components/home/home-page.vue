@@ -1,13 +1,13 @@
 <template>
     <div class="home background-gray">
         <van-nav-bar fixed title="shareShop">
-            <van-icon size="1.5em" color="#282828" name="apps-o" slot="left"  @click="showClassificationPanel"/>
+            <van-icon size="1.5em" color="#282828" name="apps-o" slot="left"  @click="showCategoryPanel"/>
             <van-icon size="1.5em" color="#282828" name="search" slot="right" @click="showSearchPanel"/>
         </van-nav-bar>
 
         <!--分类检索界面-->
         
-            <class-panel v-model="visibility.classification"></class-panel>
+            <category-panel v-model="visibility.category"></category-panel>
             <search-panel v-model="visibility.search"></search-panel>
         
 
@@ -36,12 +36,12 @@
 <script>
 
 import hotSale from '@/components/home/sub-tabs/hot-sale';
-import onSale from '@/components/home/sub-tabs/on-sale';
-import newArrival from '@/components/home/sub-tabs/new-arrival';
-import couponCenter from '@/components/home/sub-tabs/coupon-center';
+const onSale=()=>import('@/components/home/sub-tabs/on-sale');
+const newArrival=()=>import('@/components/home/sub-tabs/new-arrival');
+const couponCenter=()=>import('@/components/home/sub-tabs/coupon-center');
 
-import classPanel from '@/components/home/sub-pages/class-panel';
-import searchPanel from '@/components/home/sub-pages/search-panel';
+const categoryPanel=()=>import('@/components/home/sub-pages/category-panel');
+const searchPanel=()=>import('@/components/home/sub-pages/search-panel');
 
 export default {
     components:{
@@ -50,7 +50,7 @@ export default {
         newArrival,
         couponCenter,
     //pages
-        classPanel,
+        categoryPanel,
         searchPanel
 
     },
@@ -58,19 +58,19 @@ export default {
         return{
             active:0,
             visibility:{
-                classification:false,
+                category:false,
                 search:false,
             },   
         }
     },
 
     methods:{
-        showClassificationPanel:function(){
-            this.visibility.classification=true;
+        showCategoryPanel:function(){
+            this.visibility.category=true;
         },
         showSearchPanel:function(e){
             this.visibility.search=true;
-            //console.log('search')
+           
         }
 
     }
@@ -86,7 +86,7 @@ export default {
         
     }
     .van-popup--left{
-        width:90%;
+        width:92%;
         height: 100%;
     }
     .van-popup--right{

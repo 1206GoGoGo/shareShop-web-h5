@@ -5,14 +5,16 @@ import App from './App'
 import axios from 'axios'
 import router from './router'
 
+import 'babel-polyfill'
 
-
+import global from './assets/js/global'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
 import { Locale } from 'vant';
 import { Lazyload } from 'vant';
 import enUS from 'vant/lib/locale/lang/en-US';
+import '@/assets/style/common.less';
 
 
 Locale.use('en-US', enUS);
@@ -20,7 +22,10 @@ Vue.use(Vant);
 Vue.use(Lazyload);
 
 
+Vue.prototype.global=global;
 Vue.prototype.axios = axios;
+
+
 Vue.config.productionTip = false;
 
 

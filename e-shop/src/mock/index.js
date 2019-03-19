@@ -1,5 +1,6 @@
 const Mock=require('mockjs');
 
-import {recommandList} from './json/homeData'
+import {recommandList,categoryList} from './json/homeData'
 
 Mock.mock('pro/info/getList/','get',recommandList);
+Mock.mock('pro/category/getList','get',categoryList);
