@@ -12,7 +12,8 @@ export default {
 
 <style lang='less'>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  //font-family:Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family:   sans-serif,Arial,'Avenir', Helvetica,Verdana,"宋体";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

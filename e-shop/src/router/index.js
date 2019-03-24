@@ -6,6 +6,8 @@ const home=()=>import('@/components/home/home-page');
 const cart=()=>import('@/components/cart/cart');
 const mine=()=>import('@/components/personal-center/personal-center-index');
 
+const product=()=>import('@/components/product/product-page');
+
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +30,10 @@ export default new Router({
           component:mine,
         }
       ]
+    },
+    {
+      path:'/product',
+      component:product,
     }
   ]
 })

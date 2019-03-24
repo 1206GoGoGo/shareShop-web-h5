@@ -38,6 +38,27 @@ const categoryList=function(){
 }
 }
 
+const productList=function(){
+    return{
+        msg:"success",
+        code:200,
+        data:runRandomTimes({min:1,max:8},function(){
+            return{
+                productName:"【设计师合作款】女装  双面针织大衣  416550",
+                productDescription:"2019Uniqlo U 色彩新美学 摩登新经典",
+                productPics:[
+                    "https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg",
+                    "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other1/1000/2.jpg",
+                    "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other2/1000/3.jpg",
+                    "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other3/1000/4.jpg",
+                ],
+                price:"5.00",
+                num:2000,
+            }
+        })
+    }
+}
+
 //重复执行某个函数
 const runRandomTimes=function(range,fun){
     
@@ -54,4 +75,4 @@ const runRandomTimes=function(range,fun){
 }
 
 
-export { recommandList,categoryList };
+export { recommandList,categoryList,productList};

@@ -17,13 +17,12 @@
                                 Search
                 </van-button>
 
-                <router-view></router-view>
+               
         </van-nav-bar>
         
         <div class="panel-with-nav-bar">
-            <search-history ref="searchHistory" @do-search="handleTagClick"></search-history>
-            
-
+            <search-history v-show="!onSearch" ref="searchHistory" @do-search="handleTagClick"></search-history>
+            <product-list v-show="onSearch" ></product-list>
         </div>
 
 
@@ -36,7 +35,7 @@
 
 <script>
 import SearchHistory from "@/components/home/sub-pages/base-components/search/search-history"
-
+import ProductList from '@/components/product/product-list'
 export default {
     model:{
         prop:'visible',
@@ -51,11 +50,13 @@ export default {
     },
     components:{
         SearchHistory,
+        ProductList,
     },
     data:function(){
         return{
             thisVisible:this.visible,
             searchContent:'',
+            onSearch:false,
         }
     },
     watch:{
@@ -68,9 +69,15 @@ export default {
             }
         }
     },
+    
+
     methods:{
         goBack:function(){
            this.thisVisible=false;
+
+            //reset all the status of this component when you close the search panel
+           this.reset();
+
         },
         //handle child component search-history's emit event 
         handleTagClick:function(val){
@@ -109,6 +116,7 @@ export default {
         //update component search-history state
         updateSearchHistoryPal:function(){
             //console.log(this.$children[0]);
+
             this.$refs.searchHistory.updateList();
         },
 
@@ -116,9 +124,13 @@ export default {
         doSearch:function(){
 
 
-
+            this.onSearch=true;
+        },
+        //when user close the popover,reset all the status of this component
+        reset:function(){
+            this.searchContent='';
+            this.onSearch=false;
         }
-
     }
     
 }
@@ -146,7 +158,6 @@ export default {
             padding:0 0px;
             min-width: 55px;
             border:0px;
-                
         }
     }
 </style>
