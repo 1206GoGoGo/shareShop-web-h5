@@ -19,7 +19,7 @@ export default {
     data:function(){
         return{
             currentTab:0,
-            cart_num:1
+            
         }
     },
     mounted:function(){
@@ -41,6 +41,15 @@ export default {
 
        
     },
+    computed:{
+        cart_num:function(){
+
+            return this.$store.state.num_productsInCart;
+
+        }
+
+    },
+
     watch:{
         '$route.path':function(val){
             //随着路由的变化更新tab状态

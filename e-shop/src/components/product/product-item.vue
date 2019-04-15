@@ -82,7 +82,7 @@ export default {
                 //max-height:@height-product-item /8 *2.5;
                 width:100%;
                 //background-color:yellow;
-                font-size:16px;
+                font-size:14px;
                 overflow: hidden;
                    text-overflow:ellipsis;
                 display:-webkit-box;
@@ -126,10 +126,10 @@ export default {
                     height:100%;
                     line-height: @height-product-item / 8 *1.5;
                     .price-code{
-                        font-size:12px;
+                        font-size:14px;
                     }
                     .price-value{
-                        font-size:18px;
+                        font-size:14px;
                         //font-weight:bold;
                     }
 
@@ -138,7 +138,7 @@ export default {
                     float:right;
 
                     .van-button{
-                        font-size:14px;
+                        //font-size:14px;
                         width:70px;
                         padding:0 2px;
                         //height:@height-product-item / 8 *1.5;

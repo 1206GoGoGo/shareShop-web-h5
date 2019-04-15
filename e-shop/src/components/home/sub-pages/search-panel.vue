@@ -137,6 +137,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+    .van-nav-bar__left{
+        color:@color-gray-font;
+        .van-icon{
+            color:inherit;
+            font-weight:700;
+        }
+        .van-nav-bar__text{
+            color:inherit;
+        }
+
+    }
+
+
     .van-nav-bar__title{
         margin-left:20%;
         max-width: 65%;
@@ -148,6 +162,10 @@ export default {
             margin-top:-17px;
             padding:0px;
            
+           /deep/ .van-icon{
+               color:@color-gray-font;
+           }
+           
         }
     }
 
@@ -158,6 +176,7 @@ export default {
             padding:0 0px;
             min-width: 55px;
             border:0px;
+             color:@color-gray-font;
         }
     }
 </style>

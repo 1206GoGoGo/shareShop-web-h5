@@ -81,10 +81,15 @@ export default {
 .home{
     background-color:#f5f5f5;
 
-    .van-nav-bar__title{
+    .van-nav-bar{
+        height:@nav-bar-height;
+        line-height: @nav-bar-height;
+        .van-nav-bar__title{
         font-weight:bold;
         
     }
+    }
+    
     .van-popup--left{
         width:92%;
         height: 100%;

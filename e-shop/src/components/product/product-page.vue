@@ -207,7 +207,7 @@ export default {
         margin-top:15px;
         text-align: left;
         color:#000;
-        font-weight: 700;
+        font-weight: 500;
         .van-icon{
             color:#000;
             
@@ -223,12 +223,12 @@ export default {
 
     .van-goods-action{
         z-index:120;
-        font-weight: 700;
+        font-weight:500;
         .mini-button{
             color:#000;
            
             .van-icon{
-                font-weight: 700;
+                font-weight: 500;
             }
         }
         

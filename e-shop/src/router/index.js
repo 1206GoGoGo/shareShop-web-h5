@@ -27,10 +27,14 @@ export default new Router({
         {
           path:'cart',
           component:cart,
+          meta:{
+            requiredAuth:true,
+          }
         },
         {
           path:'mine',
           component:mine,
+          requiredAuth:true,
         }
       ]
     },
