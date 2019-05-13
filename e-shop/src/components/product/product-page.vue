@@ -23,16 +23,16 @@
 
         <div class="product-info g-white-card">
             <div class="title">
-                【设计师合作款】女装  双面针织大衣  416550
+                <van-tag  color="#7232dd">{{productData.brandName}}</van-tag>{{productData.productName}}
             </div>
             <div class="description">
-                2019Uniqlo U 色彩新美学 摩登新经典
+                {{productData.description}}
             </div>
             <div class="price">
                 <span class="price-code">$</span>
-                <span class="price-value">40.00</span>
+                <span class="price-value">{{productData.minPrice}}</span>
                 <span class="rate">
-                    <van-rate v-model="rate" :size="14" color="#000" void-color="#000" />
+                    <van-rate v-model="rate" allow-half :size="14" color="#000" void-color="#000" />
                 </span>
             </div>
             <div class="note">
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <van-cell @click="showProductSku" class="product-selected-bar" title="选择商品规格/数量/配送方式" is-link/>
+        <van-cell @click="showProductSku" class="product-selected-bar" :title="skuTips" is-link/>
         
         <van-tabs class="product-detail-info"  v-model="actionfunctionPanel" swipeable sticky>
             <van-tab title="Goods Detail">
@@ -49,25 +49,95 @@
             </van-tab>
         </van-tabs>
 
+        
+
 
         <van-goods-action>
-            <van-goods-action-mini-btn class="mini-button" icon="shopping-cart-o" text="Cart"/>
-            <van-goods-action-big-btn class="add-button"   text="Add to Cart"/>
+            <van-goods-action-mini-btn @click="goToCart" class="mini-button" icon="shopping-cart-o" text="Cart" />
+            <van-goods-action-big-btn  @click="addToCart" class="add-button"   text="Add to Cart"/>
             <van-goods-action-big-btn class="buy-button" type="danger" text="Buy It Now" />
         </van-goods-action>
+
+        <product-sku v-model="visibility.sku"></product-sku>        
+
+
 
     </div>    
 </template>
 
 <script>
+import productSku from '@/components/product/product-sku'
+
 export default {
+    components:{
+        productSku,
+    },
     data:function(){
         return{
             rate:2.5,
-            actionfunctionPanel:'1'
+            actionfunctionPanel:'1',
+            productData:{},
+            visibility:{
+                sku:false,
+            }
         }
     },
+    computed:{
+        skuTips:function(){
+            var str='Please select ';
+            // for(var i in JSON.parse(this.productData.attributeList)){
+            //     if(this.productData.attributeList.hasOwnProperty(i))
+            //         str=str+i+' ';
+            // }
+            // var tep=this.productData.attributeList.split("");
+            // tep.splice(0,1,"'");
+            // tep.splice(tep.length-1,1,"'");
+            
+            // var attributeList=JSON.parse(tep.join(''));
+            var attributeList=JSON.parse(this.productData.attributeList||'[]');
+             console.log(this.productData.attributeList);
+            console.log(attributeList);
+            for(var i=0;i<attributeList.length;i++){
+                str+=" ";
+                str+=attributeList[i].attributeKey;
+            }
+
+            return str;
+        },
+       
+    },
+    mounted:function(){
+        this.init();
+        
+    },
     methods:{
+        init:function(){
+            //console.log(this.$route.params.id);
+            var _this=this;
+            var params={
+                id:this.$route.params.id,
+            };
+
+            this.http.get(
+                this.api.product.getDetailById,
+                params,
+                response=>{
+                    if(response.data.code==200){
+                          _this.productData=response.data.data;
+                          console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
+                         // console.log(_this.skuTips);
+                    }
+                    else{
+                        
+                    }
+                  
+                },
+                error=>{
+
+                }
+            )
+
+        },
         //返回
         goBack:function(){
             this.$router.go(-1);
@@ -75,9 +145,24 @@ export default {
         share:function(){
             console.log("share");
         },
+        goToCart:function(){
+            console.log("gotoCart");
+            this.$router.push({
+                path:'/cart',
+                query:{
+                    originPathName:'product',
+                    prodcuctId:+this.productData.productId,
+                }
+            });
+        },
+        //加购物车
+        addToCart:function(){
+            console.log("add");
+        },
         //展示商品规格
         showProductSku:function(){
-
+            //console.log('asdas');
+            this.visibility.sku=true;
 
         }
     }
@@ -159,13 +244,19 @@ export default {
     .product-info{
        
         margin-top:0px;
-        padding-top:20px;
+        padding-top:10px;
         padding-left:10px;
         text-align: left;
         .title{
             font-size:16px;
             font-weight: 700;
-            
+            .van-tag{
+                vertical-align: top;
+                font-weight:500;
+                font-size:14px;
+                padding: 0px 5px;
+                margin-right:4px;
+            }
         }
         .description{
             color:@color-gray-font;

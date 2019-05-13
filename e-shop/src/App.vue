@@ -13,7 +13,16 @@ export default {
     }
   },
   beforeCreate:function(){
-   
+    
+  },
+  mounted:function(){
+    var isLogined = this.$cookies.get("logged_in")=='1'?true:false;
+    this.$store.commit('update_isLogined',{isLogined:isLogined});
+
+  },
+  beforeDestroyed:function(){
+    
+    this.$cookies.remove("logged_in");
   }
 }
 </script>
@@ -41,11 +50,7 @@ head,body{
         }
     }
 
-.panel-with-nav-bar{
-    margin-top:@panel-with-nav-bar-mgt;
-   
-   
-}
+
   
 }
 

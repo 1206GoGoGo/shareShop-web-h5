@@ -1,6 +1,5 @@
-<template>
-    
-        <div class="product-info">
+<template> 
+        <div class="product-info"  @click="goToProductPage">
             <img  class="thumb" :src="productData.thumb">
             <div class="right-info-detail">
                 <div class="product-name">{{productData.name}}</div>
@@ -13,9 +12,6 @@
                 </div>
             </div>
         </div>
-    
-
-
 </template>
 
 <script>
@@ -35,6 +31,12 @@ export default {
         productData:function(val){
             this.$emit("input",val)
         }
+    },
+    methods:{
+         goToProductPage:function(){
+            console.log("gotoproduct");
+            this.global.goToProductDetailPage(this.$router,4);
+        },
     }
 
 }
@@ -43,15 +45,15 @@ export default {
 <style lang="less" scoped>
 
     .product-info{
-        display: flex;
+        display:flex;
         height:120px;
-        align-items: center;
+        align-items:center;
         .thumb{
             
             width:30%;
-            max-width:100px;
-            min-width:100px;
-            max-height:100px;    
+            max-width:80px;
+            min-width:80px;
+            max-height:80px;    
         }
         .right-info-detail{
             box-sizing: border-box;

@@ -7,8 +7,9 @@
 
         <div slot="center-area" class="g-center-col">
             <input-box label="Email" v-model="user.email"></input-box>
-            <input-box label="Username" v-model="user.username"></input-box>
-            <input-box label="Password" type="password" v-model="user.password"></input-box>
+            <input-box label="Phone Number" v-model="user.phoneNumber"></input-box>
+            <input-box label="Username" v-model="user.userLogin.username"></input-box>
+            <input-box label="Password" type="password" v-model="user.userLogin.password"></input-box>
             <input-box label="Confirm Password" type="password" v-model="user.confirmPassword"></input-box>
             <div class="identify-code">
                 <input-box label="Identify Code" v-model="identifyCode">
@@ -50,9 +51,12 @@ export default {
         return{
             user:{
                 email:'',
-                username:'',
-                password:'',
-                confirmPassword:'',
+                phoneNumber:"",
+                userLogin:{
+                    username:'',
+                    password:'',
+                },
+                //confirmPassword:'',
             },
             identifyCode:'',
             isLoading:false,
@@ -75,13 +79,30 @@ export default {
         },
         signUp:function(){
             var _this=this;
-            _this.isLoading=true;
+            var data={};
+            
+            this.isLoading=true;
+            this.http.post(
+                this.api.user.register,
+                this.user,
+                response=>{
+                    if(response.data.code==200){
+                        alert("success");
+                    }
+                },
+                error=>{
+
+                }
+            );
+
+
+
             setTimeout(function(){
                 _this.isLoading=false;
             },1000*5);
         },
         goSignIn:function(){
-            console.log("asda");
+           
             this.$router.push({path:'/login'});
         }
 

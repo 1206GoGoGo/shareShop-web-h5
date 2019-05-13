@@ -2,7 +2,7 @@
    <div class="sort-menu">
 
        <div class="left-results-num">
-           {{startProductIndex}} - {{endProductIndex}} of total {{resultNum}} results
+           <!-- {{startProductIndex}} - {{endProductIndex}} of total {{resultNum}} results -->
        </div>
        <div class="right-sort-button" @click="openSortDialgram">
           <div class="sort-text">
@@ -194,8 +194,8 @@ export default {
 
             .nav-top{
                 background-color: #fff;
-                height:@panel-with-nav-bar-mgt;
-                line-height: @panel-with-nav-bar-mgt;
+                height:@sort-menu-height;
+                line-height: @sort-menu-height + 2px;
                // border-bottom:1px solid  @color-lightgray-border;
                // box-shadow:0 0 3px 0px @color-lightgray-border;
                 letter-spacing: 0.4px;
@@ -210,12 +210,12 @@ export default {
                     .reset-button{
                         border:1px solid #000;
                         height:@sort-menu-height * 0.8;
-                        margin-top:@sort-menu-height * 0.19;
+                        margin-top:@sort-menu-height * 0.1;
                         line-height: @sort-menu-height * 0.8;
                         color:#000;
                         box-sizing: border-box;
                         border-radius: @sort-menu-height * 0.4;
-                       font-weight: 700;
+                        font-weight: 700;
                     }
                    
                 }
@@ -229,7 +229,7 @@ export default {
                    .done-button{
                         box-sizing: border-box;
                         height:@sort-menu-height * 0.8;
-                        margin-top:@sort-menu-height * 0.19;
+                        margin-top:@sort-menu-height * 0.1;
                         line-height: @sort-menu-height * 0.8;
                         border-radius: @sort-menu-height * 0.4;
                         color:#fff;

@@ -2,11 +2,11 @@
    <div v-if="productData!=null">
         <div class="product-item g-white-card"   @click="goToProductItem">
             <div class="left-product-img">
-                <img :src="productData.productPics[0]" alt="">
+                <img :src="productData.mainImage" alt="">
             </div>
             <div class="right-product-info">
                 <div class="title">{{productData.productName}}</div>
-                <div class="description">{{productData.productDescription}}</div>
+                <div class="description">{{productData.description}}</div>
                 <div class="tag-list">
                     <van-tag plain type="danger"></van-tag>
                     <van-tag plain type="danger"></van-tag>
@@ -41,8 +41,8 @@ export default {
     },
     methods:{
         goToProductItem:function(){
-          
-            this.$router.push('/product');
+            //console.log(this.productData.productId);
+            this.$router.push({name:'product',params:{id:this.productData.productId}});
         }
     }
 }
@@ -66,6 +66,7 @@ export default {
 
             img{
                 width:100%;
+                background:url(@placeholder-img-base64) center no-repeat;
             }
         }
         .right-product-info{

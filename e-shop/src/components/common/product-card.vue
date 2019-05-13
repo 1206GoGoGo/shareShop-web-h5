@@ -108,6 +108,8 @@ export default {
     },
 
     methods:{
+       
+
         handleShopSelected(val){
             
             for(var i= 0 ; i < this.productsCard.goodsList.length ; i++)
@@ -160,8 +162,7 @@ export default {
     .product-card{
         box-sizing: border-box;
         margin-bottom:15px;
-        width:94%;
-        margin-left:3%;
+
         padding-top:10px;
         min-height:170px;
         text-align: left;

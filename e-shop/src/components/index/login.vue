@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="sign-in">
-                <van-button type="info">Sign in</van-button> 
+                <van-button type="info" @click="doSignIn">Sign in</van-button> 
                 </div>
 
 
@@ -64,6 +64,36 @@ export default {
         }
     },
     methods:{
+        doSignIn:function(){
+            var _this=this;
+            var redirect=this.$route.query.redirect;
+
+            this.http.post(
+                this.api.user.login,
+                this.user,
+                response=>{
+                    if(response.data.code==200)
+                       { 
+                           this.$store.commit("update_isLogined",{isLogined:true});
+
+                        //    if(redirect!=''){
+                        //         this.$router.push({name:redirect});
+                        //         console.log(redirect);
+                        //    }
+                        //     else{
+                        //          console.log("/home");
+                        //         this.$router.push({path:'/home'});
+                        //     }
+                             this.$router.push({path:'/home'});
+                            console.log("login success");
+                       }
+                },
+                error=>{
+
+                }
+            );
+
+        },
         goBack:function(){
             this.$router.back(1);
         },

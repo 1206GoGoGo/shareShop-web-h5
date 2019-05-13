@@ -1,7 +1,7 @@
 <template>
-   <div class="category-card">
+   <div class="category-list-detail-item" @click="goToCategoryProductList">
        <div class="category-img">
-           <img :src="categoryItemData.categoryThumb">
+           <img :src="categoryItemData.picUrl"  :class="circle?'circle':''">
        </div>
         <p class="category-desc">{{categoryItemData.categoryName}}</p>
 
@@ -16,39 +16,71 @@ export default {
         categoryItemData:{
             type:Object,
             required:true,
+        },
+        circle:{
+            type:Boolean,
+            default:false,
         }
     },
 
     data:function(){
         return{
-
+            
         }
+    },
+
+    methods:{
+        goToCategoryProductList:function(){
+            this.$router.push({
+                name:'search',
+                query:{
+                    categoryId:this.categoryItemData.categoryId,
+                    categoryName:this.categoryItemData.categoryName,
+                    }
+            });
+        }
+
     }
     
 }
 </script>
 
 <style lang="less" scoped>
-    .category-card{
+    .category-list-detail-item{
         margin:5px auto;
         width:100%;
+
+        .circle{
+            border-radius: 50%;
+            border:1px solid red;
+        }
+
         .category-img{
-            width: 76%;
-            height: 100%;
-            margin:0 auto;
+          
+            
+           // height: 100%;
+            
+            //padding-bottom: 100%;
             overflow: hidden;
-            background:url(@placeholder-img-base64)center no-repeat;
-            background-size:100%;
+           
+          
             img{
-                width:100%;
-               
+                min-width:30px;
+                min-height:30px;
+                max-width:60px;
+                max-height:60px;
+                margin:0 auto;
+                background:url(@placeholder-img-base64) center no-repeat;
+                background-size:50%;
+              
+               //padding-top:100%;
                
             }
         };
         .category-desc{
                 line-height: 23px;
                 height: 23px;
-                padding: 4px 0;
+                padding:0px 0;
                 margin:0;
                 font-size: 14px;
                 color: #5D5D5D;

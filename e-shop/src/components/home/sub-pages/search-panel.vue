@@ -1,7 +1,8 @@
 
 <template>
-    <van-popup v-model="thisVisible"
-                position="right">
+    
+    <div
+                class="search-panel">
         
         <van-nav-bar fixed 
                 left-arrow
@@ -20,17 +21,14 @@
                
         </van-nav-bar>
         
-        <div class="panel-with-nav-bar">
+        <div class="panel-with-search-bar">
             <search-history v-show="!onSearch" ref="searchHistory" @do-search="handleTagClick"></search-history>
-            <product-list v-show="onSearch" ></product-list>
+            <product-list v-show="onSearch" :productList="productList"></product-list>
         </div>
 
 
-    </van-popup>
-
-
-
-
+    </div>
+    
 </template>
 
 <script>
@@ -44,7 +42,7 @@ export default {
     props:{
         visible:{
             type:Boolean,
-            default:false,
+            default:true,
         },
         
     },
@@ -57,6 +55,8 @@ export default {
             thisVisible:this.visible,
             searchContent:'',
             onSearch:false,
+            productList:[],
+
         }
     },
     watch:{
@@ -69,12 +69,22 @@ export default {
             }
         }
     },
-    
+    mounted:function(){
+        var cateId=this.$route.query.categoryId;
+        var cateName=this.$route.query.categoryName;
+        if(cateId&&cateId!=''&&cateName!=''&&cateName){
+            this.searchContent=cateName;
+            console.log(this.searchContent);
+            this.doCategorySearch(cateId);
+        }
+
+    },
+  
 
     methods:{
         goBack:function(){
            this.thisVisible=false;
-
+           this.$router.back(-1);
             //reset all the status of this component when you close the search panel
            this.reset();
 
@@ -86,13 +96,14 @@ export default {
             this.handleSearch();
         },
    
-        //do search options
+        //click the search button, do search options 
         handleSearch:function(){
             if(this.searchContent==''){
                 console.log("please input the search value")
                 return;
             }
             else{
+                //调整搜索历史tag顺序和更新搜索历史
                 var storage=window.localStorage;
                 var searchHistoryList=JSON.parse(storage.getItem("search-history")||'[]');
                 var searchValueIndex=searchHistoryList.indexOf(this.searchContent);
@@ -119,10 +130,56 @@ export default {
 
             this.$refs.searchHistory.updateList();
         },
+        //do category search
+        doCategorySearch:function(id){
+            var param={
+                id:id,
+            };
+            this.http.get(
+                this.api.search.byCategory,
+                param,
+                response=>{
+                    if(response.data.code==200){
+                        this.productList=response.data.data.indata;
+                    }
+                    //no data
+                    else if(response.data.code==400){
+                        //alert("no data");
+                    }
+
+
+                    
+                },
+            )
+            this.onSearch=true;
+
+        },
 
         //search options
         doSearch:function(){
+            var param={
+                name:this.searchContent,
+                pageindex:1,
+                pagesize:20,
+            }
 
+            var _this=this;
+            this.http.get(
+                this.api.search.byKeyword,
+                param,
+                response=>{
+                    if(response.data.code==200){
+                        _this.productList=response.data.data.indata;
+                    }
+                    //no data
+                    else if(response.data.code==400){
+                        alert("no data");
+                    }
+
+
+                    
+                },
+            )
 
             this.onSearch=true;
         },
@@ -137,46 +194,49 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-    .van-nav-bar__left{
-        color:@color-gray-font;
-        .van-icon{
-            color:inherit;
-            font-weight:700;
+.search-panel{
+    height:100%;
+    width:100%;
+    .van-nav-bar{
+        .van-nav-bar__left{
+            color:@color-gray-font;
+            .van-icon{
+                color:inherit;
+                font-weight:700;
+            }
+            .van-nav-bar__text{
+                color:inherit;
+            }
         }
-        .van-nav-bar__text{
-            color:inherit;
+
+        .van-nav-bar__title{
+            margin-left:23%;
+            max-width: 60%;
+            height:46px;
+            
+            .van-search{
+                position:relative;
+                top:23px;
+                margin-top:-17px;
+                padding:0px;
+            
+            /deep/ .van-icon{
+                color:@color-gray-font;
+            }
+            
+            }
         }
 
+        .van-nav-bar__right{
+            right:5px;
+            .search-action{
+                font-size: 14px;
+                padding:0 0px;
+                min-width: 55px;
+                border:0px;
+                color:@color-gray-font;
+            }
+        }
     }
-
-
-    .van-nav-bar__title{
-        margin-left:20%;
-        max-width: 65%;
-        height:46px;
-        
-        .van-search{
-            position:relative;
-            top:23px;
-            margin-top:-17px;
-            padding:0px;
-           
-           /deep/ .van-icon{
-               color:@color-gray-font;
-           }
-           
-        }
-    }
-
-    .van-nav-bar__right{
-        right:5px;
-        .search-action{
-            font-size: 14px;
-            padding:0 0px;
-            min-width: 55px;
-            border:0px;
-             color:@color-gray-font;
-        }
-    }
+}
 </style>

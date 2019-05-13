@@ -16,6 +16,9 @@ const state={
 const mutations={
     update_num_ProductsInCart(state,payload){
         state.num_productsInCart=payload.num;
+    },
+    update_isLogined(state,payload){
+        state.isLogined=payload.isLogined;
     }
 
 

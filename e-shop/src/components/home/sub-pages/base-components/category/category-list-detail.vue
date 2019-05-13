@@ -50,7 +50,7 @@ export default {
         },
     },
     created:function(){
-        console.log("categoryList.length:"+this.categoryList.length);
+        //console.log("categoryList.length:"+this.categoryList.length);
     },
     beforeMount:function(){
         

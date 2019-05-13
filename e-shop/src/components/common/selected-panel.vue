@@ -1,6 +1,6 @@
 <template>
     <div class="selected-panel"> 
-        <van-checkbox v-model="isSelected" @input="handleSelectedClick" @change="handleChange"></van-checkbox>
+        <van-checkbox  v-model="isSelected" @input="handleSelectedClick" @change="handleChange"></van-checkbox>
         <div class="right">
             <slot name="right">
 
@@ -74,6 +74,7 @@ export default {
          .van-icon{
            border-color:@color-darkgray-border;
         }
+        
        
     }
     .right{

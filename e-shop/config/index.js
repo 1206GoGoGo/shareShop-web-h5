@@ -10,7 +10,19 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+
+      '/api': {
+        target:'http://112.74.165.55:8080/shareshop/',  //wang
+        //target: 'http://10.120.203.64:8080/shareshop/', //chen
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      },
+     
+
+    },
 
     // Various Dev Server settings
 

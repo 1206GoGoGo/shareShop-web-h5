@@ -3,7 +3,7 @@
     <div class="product-list  g-white-card">
         <sort-menu v-if="showSort"></sort-menu>
         <div>
-            <product-item v-for="(item,index) in productList" :key="index" :productData="item"></product-item>
+            <product-item v-for="item in productList" :key="item.productId" :productData="item"></product-item>
         </div>
        
         
@@ -19,6 +19,12 @@ export default {
         showSort:{
             type:Boolean,
             default:true,
+        },
+        productList:{
+            type:Array,
+            default:function(){
+                return [];
+            },
         }
     },
     components:{
@@ -28,7 +34,7 @@ export default {
 
     data:function(){
         return{
-             productList:[],   
+            
         }
     },
     mounted:function(){
@@ -38,17 +44,7 @@ export default {
     },
     methods:{
         init:function(){
-            var _this=this;
-
-            this.axios({
-                type:"get",
-                url:"pro/product/getList"
-            }).then(function(rep){
-                console.log(rep);
-                _this.productList=rep.data.data;
-            }).catch(function(e){
-                console.log(e);
-            })
+          
 
         }
     }    

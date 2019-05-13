@@ -12,10 +12,8 @@
            
            <div   class="panel-with-nav-bar fix-left">
                <van-badge-group ref="categoryPanelLeftMenu" :active-key="activeCategoryIndex.level1" @change="changeCategory">
-                  
                         <van-badge  v-for="(item,index) in goodsCategory" :title="item.categoryName" :key="index">
                         </van-badge>
-                  
                </van-badge-group>
 
             <div class="category-list-detail" ref="categoryPanelRightMenu" >
@@ -67,16 +65,13 @@ export default {
 
         }
     },
-    computed:{
-        
 
-    },
     watch:{
         //vant的badge组件有问题 change事件实际上是click ，所以在此手动添加监控，监控一级菜单选中项的变化
         'activeCategoryIndex.level1':{
             handler: function(val){
 
-                console.log("change:" +this.activeCategoryIndex.level1+"----"+val);
+                //console.log("change:" +this.activeCategoryIndex.level1+"----"+val);
                 if(this.selectedCategoryList[val]===undefined)
                     this.getCategory(val);
             }
@@ -113,43 +108,47 @@ export default {
         init:function(){
               
               var _this=this;
-              this.axios({
-                  type:"get",
-                  url:"pro/category/getList",
-              }).then(function(rep){
-                _this.goodsCategory=rep.data.data;
-                _this.categoryListDetailVisible=[];
+              this.http.get(
+                this.api.category.getFirstLevel,
+                {},
+                function(rep){
+                    _this.goodsCategory=rep.data.data;
+                    _this.categoryListDetailVisible=[];
                 //init tabs visible controll array
-                for(var i=0;i<_this.goodsCategory.length;i++)
-                {
+                    for(var i=0;i<_this.goodsCategory.length;i++)
+                    {
 
-                    _this.categoryListDetailVisible.push(i==0?true:false);
-                }
+                        _this.categoryListDetailVisible.push(i==0?true:false);
+                    }
 
-                _this.getCategory(0);
-
-              }).catch(function(error){
-
-              })
-              
-
-
-
-
+                    _this.getCategory(0);
+                },
+              )
         },
         getCategory:function(val){
             var _this=this;
-            this.axios({
-                type:"get",
-                url:"pro/category/getList",
-            }).then(function(rep){
-                 _this.$set(_this.selectedCategoryList,val,rep.data.data);
-                //_this.selectedCategoryList[val]=rep.data.data;
-                console.log(rep.data.data)
-            //console.log(_this.selectedCategoryList.length);
-            }).catch(function(error){
+            var targetId=this.goodsCategory[val].categoryId;
+            var params={
+                id:targetId,
+            }
+            //console.log(val);
+            this.http.get(
+                this.api.category.getChildrenByParentId,
+                params,
+                function(rep){
+                    switch(rep.data.code){
+                        case 200:{
+                            _this.$set(_this.selectedCategoryList,val,rep.data.data);
+                        };break;
+                        case 406:{
+                            _this.$set(_this.selectedCategoryList,val,[_this.goodsCategory[val]]);
+                        };break;
+                        default:
 
-            })
+                    }
+                }
+            );
+            
         },
         goBack:function(){
             this.thisVisible=false;
@@ -176,11 +175,16 @@ export default {
 <style lang="less" scoped>
     
     .van-popup{
-        .van-nav-bar__right{
-            color:@color-blue;
+        .van-nav-bar{
+            height:@nav-bar-height;
+            line-height:@nav-bar-height;
+            .van-nav-bar__right{
+                color:@color-blue;
+            }
         }
-
+       
         .panel-with-nav-bar{
+            padding-top:0px;
             .van-badge-group{
                 overflow: hidden;
                 overflow-y:scroll;
@@ -197,12 +201,14 @@ export default {
                 }
             };
             .category-list-detail{
+
                 float:right;
                 overflow: hidden;
                 overflow-y:scroll;
                 position:absolute;
                 left:85px;
                 right:0px;
+                padding-top:10px;
             }
 
 

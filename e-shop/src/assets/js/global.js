@@ -21,6 +21,13 @@ const global={
         },1000);
 
 
+    },
+
+    goToProductDetailPage:function(router,productId){
+        router.push({
+            path:'product/'+productId,
+        })
+
     }
 
 

@@ -18,17 +18,19 @@
             
         </div>
         
+
+     
+
         <van-submit-bar
         :price="totalPrice"
         currency="$"
         button-text="submit"
         @submit="submit"
         >
-
-        <van-checkbox v-model="selectedAll" >All</van-checkbox>
-
+        <van-checkbox v-model="selectedAll">All</van-checkbox>
         </van-submit-bar>
- 
+
+
         
 
     </div>    
@@ -192,22 +194,29 @@ export default {
         //submit order
         submit:function(){
             var result=this.checkSelected();
-            if(!result.flag){
+           console.log(result);
+            if(!result.flag&&result.count==0){
                 this.$toast("You haven't selected a product yet !");
             }
-            console.log("asdasd");
+            else{
+                this.$router.push({path:'/confirmOrder'});
+            }
+           
 
         },
 
         checkSelected:function(){
-            var flag=true;
+            var flag=false;
             var count=0;
             for(var i=0;i<this.productsData.length;i++){
                 for(var j=0;j<this.productsData[i].goodsList.length;j++){
                     if(this.productsData[i].goodsList[j].isSelected)
-                        count++;
-                    else
-                        flag=false;
+                        {
+                            count++;
+                            flag=true;
+                        }
+                    
+                        
                 }
             }
             return {flag:flag,count:count};
@@ -244,7 +253,12 @@ export default {
 
     .fun-panel{
         margin-top:@panel-with-nav-bar-mgt;
-        padding-top:10px;
+        //padding-top:10px;
+
+        .product-card{
+            width:94%;
+            margin:0 auto;
+        }
     }
     .van-submit-bar{
         bottom:50px;
@@ -252,15 +266,15 @@ export default {
         .van-submit-bar__bar{
             height:@submit-bar-height;
             .van-submit-bar__text{
-                font-size:12px;
+                font-size:14px;
                 .van-submit-bar__price{
-                    font-size:14px;;
+                    font-size:18px;;
                 }
             }
         }
         .van-button{
             width:80px;
-            font-size:14px;
+            font-size:16px;
             height:@submit-bar-height;
             line-height:@submit-bar-height;
         }
