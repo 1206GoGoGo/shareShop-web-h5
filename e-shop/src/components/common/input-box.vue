@@ -34,17 +34,22 @@ export default {
         return{
             localInputValue:this.inputValue,
             isFocus:false,
-            isEmpty:true,
+            isEmpty:this.inputValue.length==0?true:false,
         }
     },
     watch:{
+        inputValue:function(val){
+            this.localInputValue=val;
+        },
         localInputValue:function(val){
+           
             if(val.length==0){
                 this.isEmpty=true;
             }
             else{
                 this.isEmpty=false;
             }
+            
             this.$emit("changeValue",val);
         }
     },

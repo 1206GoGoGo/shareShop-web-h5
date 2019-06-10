@@ -7,18 +7,10 @@
             <van-icon name="share"></van-icon>
         </div>
         <van-swipe :autoplay="3000" class="g-white-card">
-            <van-swipe-item>
-                <img src="https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg">
+            <van-swipe-item v-for="(item,index) in tepimgUrl" :key="index" @click="previewImage(index)">
+                <img :src="item">
             </van-swipe-item>
-            <van-swipe-item>
-                <img src="https://www.uniqlo.cn/hmall/test/u0000000005573/main/other1/1000/2.jpg">
-            </van-swipe-item>
-            <van-swipe-item>
-                <img src="https://www.uniqlo.cn/hmall/test/u0000000005573/main/other2/1000/3.jpg">
-            </van-swipe-item>
-            <van-swipe-item>
-                <img src="https://www.uniqlo.cn/hmall/test/u0000000005573/main/other3/1000/4.jpg">
-            </van-swipe-item>
+            
         </van-swipe>
 
         <div class="product-info g-white-card">
@@ -29,12 +21,25 @@
                 {{productData.description}}
             </div>
             <div class="price">
-                <span class="price-code">$</span>
-                <span class="price-value">{{productData.minPrice}}</span>
+                <span class="price-area">
+                    <div class="org-price">
+                        <span class="price-code">$</span>
+                        <span class="price-value">{{productData.minPrice}}-</span>
+                        <span class="price-value">{{productData.maxPrice}}</span>
+                    </div>
+                    <div class="vip-price">
+                        <span class="price-code">$</span>
+                        <span class="price-value">{{productData.minPriceVip}}-</span>
+                        <span class="price-value">{{productData.maxPriceVip}}</span>
+                    </div>
+                </span>
                 <span class="rate">
-                    <van-rate v-model="rate" allow-half :size="14" color="#000" void-color="#000" />
+                    <span class="rate-num">{{parseFloat(productData.score).toFixed(1)}}</span>
+                    <van-rate  readonly v-model="productData.score" :size="14" allow-half color="#000"  void-color="#000" />
                 </span>
             </div>
+            
+
             <div class="note">
                 支持30天无理由退货
             </div>
@@ -44,8 +49,10 @@
         
         <van-tabs class="product-detail-info"  v-model="actionfunctionPanel" swipeable sticky>
             <van-tab title="Goods Detail">
+                <div v-html="productData.html"></div>
             </van-tab>
             <van-tab title="Customer reviews">
+              
             </van-tab>
         </van-tabs>
 
@@ -54,6 +61,7 @@
 
         <van-goods-action>
             <van-goods-action-mini-btn @click="goToCart" class="mini-button" icon="shopping-cart-o" text="Cart" />
+             <van-goods-action-mini-btn @click="collect" class="mini-button" :icon="isCollected?'like':'like-o'" text="Like" />
             <van-goods-action-big-btn  @click="addToCart" class="add-button"   text="Add to Cart"/>
             <van-goods-action-big-btn class="buy-button" type="danger" text="Buy It Now" />
         </van-goods-action>
@@ -67,6 +75,7 @@
 
 <script>
 import productSku from '@/components/product/product-sku'
+import { ImagePreview } from 'vant';
 
 export default {
     components:{
@@ -74,12 +83,18 @@ export default {
     },
     data:function(){
         return{
-            rate:2.5,
-            actionfunctionPanel:'1',
+            actionfunctionPanel:'0',
             productData:{},
+            tepimgUrl:[
+                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg",
+                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other1/1000/2.jpg",
+                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other2/1000/3.jpg",
+                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other3/1000/4.jpg"
+            ],
             visibility:{
                 sku:false,
-            }
+            },
+            isCollected:false,
         }
     },
     computed:{
@@ -95,8 +110,8 @@ export default {
             
             // var attributeList=JSON.parse(tep.join(''));
             var attributeList=JSON.parse(this.productData.attributeList||'[]');
-             console.log(this.productData.attributeList);
-            console.log(attributeList);
+            //console.log(this.productData.attributeList);
+            //console.log(attributeList);
             for(var i=0;i<attributeList.length;i++){
                 str+=" ";
                 str+=attributeList[i].attributeKey;
@@ -145,6 +160,16 @@ export default {
         share:function(){
             console.log("share");
         },
+        //预览图片
+        previewImage:function(index){
+            ImagePreview({
+                images:this.tepimgUrl,
+                startPosition:index,
+                showIndicators:true,
+            })
+
+
+        },
         goToCart:function(){
             console.log("gotoCart");
             this.$router.push({
@@ -157,7 +182,34 @@ export default {
         },
         //加购物车
         addToCart:function(){
+
             console.log("add");
+        },
+        collect:function(){
+            
+            this.http.post(
+                this.api.collect.add,
+                {
+                    productId:this.productData.productId,
+                },
+                response=>{
+                    if(response.status==200){
+                        if(response.data.code==200){
+                            this.isCollected=true;
+                            alert("success to collect");
+                        }else if(response.data.code==406){
+                            this.isCollected=true;
+                            alert(response.data.msg);
+                        }
+
+                    }
+                },
+                error=>{
+
+                }
+            )
+
+            //console.log("collect");
         },
         //展示商品规格
         showProductSku:function(){
@@ -264,20 +316,67 @@ export default {
             font-size:14px;
         }
         .price{
-            padding-top:20px;
+            padding-top:6px;
             font-weight: bold;
-            .price-code{
-                font-size:16px;
+            font-size:0px;
+
+            .price-area{
+                display: inline-block;
+                width:200px;
+                .org-price{
+                    position: relative;
+                    color:@color-gray-font;
+                    text-decoration: line-through;
+                    .price-code{
+                        font-size:16px;
+                    }
+                    .price-value{
+                        padding-left:2px;
+                        font-size:16px;
+                    }
+
+                    //自定义删除线 暂时未用
+                    &:before{
+                        content:"";
+                        position:absolute;
+                        width:100%;
+                        height:0px;
+                        border:0px solid @color-gray-font;
+                    }
+                }
+                .vip-price{
+                    
+                    .price-code{
+                        font-size:14px;
+                    }
+                    .price-value{
+                        padding-left:2px;
+                        font-size:20px;
+                    }
+                }
             }
-            .price-value{
-                padding-left:2px;
-                font-size:22px;
-            }
+
             .rate{
                 float:right;
-                padding-top:5px;
+                color:#000;
+                width:100px;
+                margin-right:10px;
+                text-align:right;
+                margin-top:3px;
                 //border:1px solid #000;
                 //vertical-align: bottom;
+
+                .rate-num{
+                    display: inline-block;
+                    letter-spacing:1px;
+                    font-size:18px;
+                    color:@color-red-font;
+                }
+
+                .van-rate{
+                    margin-top:2px;
+                    display: inline-block;
+                }
             }
         
         }

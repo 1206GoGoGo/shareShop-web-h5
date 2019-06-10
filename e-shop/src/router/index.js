@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const index=()=>import('@/components/index/index');
-const home=()=>import('@/components/home/home-page');
-const cart=()=>import('@/components/cart/cart');
-const confirmOrder=()=>import('@/components/cart/confirm-order')
-const mine=()=>import('@/components/personal-center/personal-center-index');
+const index=()=>import('@/pages/index');
+const home=()=>import('@/pages/home/home');
+const cart=()=>import('@/pages/cart/cart');
+const confirmOrder=()=>import('@/pages/cart/confirm-order')
+const mine=()=>import('@/pages/user/user-center');
 
-const search=()=>import('@/components/home/sub-pages/search-panel');
-const login=()=>import('@/components/index/login');
-const register=()=>import('@/components/index/register');
-const product=()=>import('@/components/product/product-page');
+const hotsale=()=>import('@/pages/home/hot-sale');
+const search=()=>import('@/pages/search/search');
+const login=()=>import('@/pages/user/login');
+const register=()=>import('@/pages/user/register');
+const product=()=>import('@/pages/product/product');
 
 Vue.use(Router)
 
@@ -22,11 +23,12 @@ export default new Router({
       redirect:'home',
       children:[
         {
-          path:'home',
+          name:'home',
+          path:'/home',
           component:home,
         },
         {
-          path:'cart',
+          path:'/cart',
           name:'cart',
           component:cart,
           meta:{
@@ -34,7 +36,7 @@ export default new Router({
           }
         },
         {
-          path:'mine',
+          path:'/mine',
           name:'mine',
           component:mine,
           meta:{
@@ -45,6 +47,12 @@ export default new Router({
       ]
     },
     {
+      name:'hotsale',
+      path:'/hotsale',
+      component:hotsale,
+    },
+    {
+      name:'login',
       path:'/login',
       component:login,
     },

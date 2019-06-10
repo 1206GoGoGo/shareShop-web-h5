@@ -2,8 +2,10 @@
    <div class="sort-menu">
 
        <div class="left-results-num">
+           Total  {{totalNum}} results
            <!-- {{startProductIndex}} - {{endProductIndex}} of total {{resultNum}} results -->
        </div>
+       
        <div class="right-sort-button" @click="openSortDialgram">
           <div class="sort-text">
               Sort & Filter
@@ -22,7 +24,6 @@
                 </van-col>
             </van-row> 
 
-            
             <van-collapse v-model="activeFilterModule" accordion>
                 <van-collapse-item class="sort-rule-collapse"  name="1">
                     <div slot="title" class="slot-title">
@@ -44,6 +45,12 @@
 </template>
 <script>
 export default {
+    props:{
+        totalNum:{
+            type:Number,
+            default:0,
+        },
+    },
     data:function(){
         return{
             resultNum:3,
@@ -75,7 +82,7 @@ export default {
                 },
                 {
                     sortRuleCode:"5",
-                    sortRuleMsg:"Hightest Rating",
+                    sortRuleMsg:"Highest Rating",
                 },
                 {
                     sortRuleCode:"6",
@@ -117,8 +124,36 @@ export default {
             this.visiblity.sortDialgram=true;
         },
         doneSort:function(){
+            var params={}
+            switch(this.sortRule){
+                case '2':{
+                    params.field="sales";
+                    params.judge=-1;
+                    };break;
+                case '3':{
+                    params.field="minPrice";
+                    params.judge=1;
+                };break;
+                case '4':{
+                    params.field="minPrice";
+                    params.judge=-1;
+                };break;
+                case '5':{
+                    params.field="pscore";
+                    params.judge=-1;
+                };break;
+                case '6':{
+                    params.field="inputTime";
+                    params.judge=-1;
+                };break;
+                default:{
+                    
+                };break;
 
+            }
+            
             //doSort 
+            this.$emit("reOrder",params)
 
             this.visiblity.sortDialgram=false;
         },

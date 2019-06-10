@@ -12,17 +12,48 @@ export default {
 
     }
   },
-  beforeCreate:function(){
-    
+  created:function(){
+
+    var isLogined = (this.$cookies.get("token")!='null'&&this.$cookies.get("logged_in")=='1')?true:false;
+    //console.log(typeof(this.$cookies.get("logged_in")));
+    //console.log(this.$cookies.get("logged_in"));
+    this.$store.commit('update_isLogined',{isLogined:isLogined});
+    this.init();
+    //console.log("in app.vue:"+ this.$store.state.isLogined);
   },
   mounted:function(){
-    var isLogined = this.$cookies.get("logged_in")=='1'?true:false;
-    this.$store.commit('update_isLogined',{isLogined:isLogined});
-
+    //console.log(this.$store.state.user);
   },
-  beforeDestroyed:function(){
+  beforeDestroy:function(){
     
-    this.$cookies.remove("logged_in");
+    
+  },
+
+  methods:{
+    init:function(){
+      
+      this.getUserInfo();
+
+    },
+    checkLogined:function(){
+
+    },
+    getUserInfo:function(){
+         this.http.get(
+                this.api.user.getInfo,
+                '',
+                response=>{
+                    if(response.status==200&&response.data.code==200){
+                      
+                        this.$store.commit("update_userInfo",{user:response.data.data});
+                    }
+                    //console.log(response.data.data);
+                },
+                error=>{
+
+                }
+            )
+    }
   }
 }
 </script>
@@ -37,7 +68,7 @@ head,body{
 }
 #app {
   //font-family:Helvetica Neue,Helvetica,Arial,sans-serif;
-  font-family:   sans-serif,Arial,'Avenir', Helvetica,Verdana,"宋体";
+  font-family:  Helvetica, sans-serif,Arial,'Avenir', Verdana;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

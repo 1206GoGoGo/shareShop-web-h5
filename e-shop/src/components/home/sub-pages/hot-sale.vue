@@ -1,14 +1,17 @@
 <template>
     <div class="hot-sale">
         <div class="product-list">
-            <shop-card ></shop-card>
-            <shop-card :topFlag="true"></shop-card>
-            <shop-card ></shop-card>
+            <shop-card :product-data='productList[1]'></shop-card>
+            <shop-card :product-data='productList[0]' :topFlag="true" ></shop-card>
+            <shop-card :product-data='productList[2]'></shop-card>
         </div>
         
         <div class="view-more">
-            <span class="text">View More</span> 
-            <van-icon name="arrow"></van-icon>
+            <span @click="gotoHotSale">
+                <span class="text">View More</span> 
+                <van-icon name="arrow"></van-icon>
+            </span>
+            
         </div>
     </div>    
 </template>
@@ -22,7 +25,38 @@ export default {
     },
     data:function(){
         return{
-            productList:{},
+            productList:[],
+        }
+    },
+    beforeMount:function(){
+        this.getList();
+    },
+    methods:{
+        getList:function(){
+            
+            this.http.get(
+                this.api.search.getList.url,
+                {
+                    pagesize:3,
+                    field: this.api.search.getList.field.hotSale,
+                },
+                response=>{
+                    if(response.status==200&&response.data.code==200){
+                        this.productList=response.data.data.indata;
+
+                    }
+
+                    
+                },
+                error=>{}
+            )
+
+        },
+
+        gotoHotSale:function(){
+            this.$router.push({
+                path:'/hotsale',
+            })
         }
     }
 }

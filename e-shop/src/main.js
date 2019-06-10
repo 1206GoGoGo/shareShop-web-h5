@@ -15,6 +15,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import { Locale } from 'vant';
 import { Lazyload } from 'vant';
+
 import enUS from 'vant/lib/locale/lang/en-US';
 
 import '@/assets/style/common.less';
@@ -25,6 +26,7 @@ import api from './request/api.js';
 Locale.use('en-US', enUS);
 Vue.use(Vant);
 Vue.use(Lazyload);
+//Vue.use(ImagePreview);
 Vue.use(VueCookies);
 
 Vue.prototype.global=global;
@@ -36,8 +38,11 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to,from,next)=>{
-      if(to.meta.requiredAuth&&!store.state.isLogined){
-       
+  var isLogined = (VueCookies.get('token')!='null'&&VueCookies.get('logged_in')=='1')?true:false;
+
+      if(to.meta.requiredAuth&&(!isLogined)){
+          // console.log(from.fullPath);
+           //console.log(store.state.isLogined);
         next({
           path:'/login',
         })
@@ -48,15 +53,31 @@ router.beforeEach((to,from,next)=>{
 
 })
 
-//mock
-
+//filter
+Vue.filter("formatDate",function(value){
+  let date = new Date(value);
+    let y = date.getFullYear();
+    let MM = date.getMonth() + 1;
+    MM = MM < 10 ? ('0' + MM) : MM;
+    let d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    let h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    let m = date.getMinutes();
+    m = m < 10 ? ('0' + m) : m;
+    let s = date.getSeconds();
+    s = s < 10 ? ('0' + s) : s;
+    return y + '-' + MM + '-' + d ;
+    //return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+  
+})
 
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
   store,
+  router,
   components: { App },
   template: '<App/>'
 })

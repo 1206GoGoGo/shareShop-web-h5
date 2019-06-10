@@ -54,32 +54,7 @@ export default {
                     storeId:1,
                     isSelected:false,
                     goodsList:[
-                        {   
-                            isSelected:false,
-                            productId:1,
-                            thumb:"https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg",
-                            price:20.0,
-                            sku:{
-                                id:2,
-                                name:"白色",
-                            },
-                            num:1,
-                            name:"【设计师合作款】女装  双面针织大衣  416550",
-                        
-                        },
-                        {   
-                            isSelected:false,
-                            productId:2,
-                            thumb:"https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg",
-                            price:20.0,
-                            sku:{
-                                id:3,
-                                name:"黑色",
-                            },
-                            num:1,
-                            name:"测试商品2",
-                        
-                        }
+                       
                     ]
                 },
             ],
@@ -90,6 +65,7 @@ export default {
 
     mounted:function(){
 
+        this.getProductListInCart();
 
         this.$store.commit("update_num_ProductsInCart",{num:this.totalProductsNum,});
 
@@ -170,7 +146,23 @@ export default {
         goBack:function(){
             this.$router.back(1);
         },
+        getProductListInCart:function(){
 
+            this.http.get(
+                this.api.cart.getList,
+                '',
+                response=>{
+                    consoel.log(response);
+                },
+                error=>{
+
+                }
+            )
+
+
+
+
+        },
         handleShopSelected:function(){
             var tep=true;
 
@@ -236,10 +228,7 @@ export default {
         line-height:@nav-bar-height;
         box-shadow: 0 0px 3px 0px @color-lightgray-border;
 
-        .left{
-
-
-        }
+        
 
         .title{
             font-size:16px;

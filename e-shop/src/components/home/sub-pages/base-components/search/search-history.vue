@@ -60,7 +60,7 @@ export default {
 <style lang="less" scoped>
 
 .search-history{
-    padding-top:25px;
+    padding-top:20px;
 
     .head-bar{
         color:@color-gray-font;

@@ -7,12 +7,13 @@
 @submit-bar-height:40px;
 @height-product-item:130px;
 @color-blue:#0065ff;
+@color-lightblue:#4f9cee;
 @color-gray-background:#f4f4f4;
 @color-red-background:#e83729;
 @color-rosybrown-background:#cd8183;
 @color-coral-background:#f07951;
 @color-red-font:#e33a65;
-
+@color-orange:#f6722b;
 @color-gray-transparent-background:rgba(0,0,0,.6);
 @color-gray-font:#7c7d7e;
 @color-lightgray-border:#cccccc;
@@ -50,6 +51,9 @@
 .g-card-shadow-gray{
     box-shadow: 0 0px 5px 1px #dcdfe6; 
 }
+.g-card-shadow{
+    box-shadow:0 0px 10px 0px @color-lightgray-border;
+}
 .g-panel-with-bottom-nav{
    padding-bottom:60px;
 }
@@ -62,4 +66,20 @@
 .g-tips-href{
     color:@color-blue;
     text-decoration: underline;
+}
+
+//红色渐变
+.g-red-gradient{
+
+    background: #FF416C; 
+    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+//蓝色渐变
+.g-blue-gradient{
+    background: @color-blue;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, @color-blue, @color-lightblue);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, @color-blue, @color-lightblue); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    
 }

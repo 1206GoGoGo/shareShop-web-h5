@@ -6,8 +6,7 @@ Vue.use(Vuex);
 
 const state={
     user:{
-        username:'',
-        nickname:'',
+        
     },
     isLogined:false,
     num_productsInCart:0,
@@ -19,7 +18,11 @@ const mutations={
     },
     update_isLogined(state,payload){
         state.isLogined=payload.isLogined;
+    },
+    update_userInfo(state,payload){
+        state.user=payload.user;
     }
+    
 
 
 };

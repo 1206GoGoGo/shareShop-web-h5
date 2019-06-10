@@ -1,7 +1,7 @@
 
 <template>
-    <div class="product-list  g-white-card">
-        <sort-menu v-if="showSort"></sort-menu>
+    <div class="product-list">
+        
         <div>
             <product-item v-for="item in productList" :key="item.productId" :productData="item"></product-item>
         </div>
@@ -12,7 +12,7 @@
 
 <script>
 import ProductItem from '@/components/product/product-item'
-import SortMenu from '@/components/product/sort-menu'
+
 
 export default {
     props:{
@@ -29,7 +29,7 @@ export default {
     },
     components:{
         ProductItem,
-        SortMenu,
+       
     },
 
     data:function(){
@@ -55,7 +55,7 @@ export default {
 
 <style lang="less" scoped>
     .product-list{
-        margin-top:20px;
+        margin-top:0px;
         padding-top:0px;
     }
 

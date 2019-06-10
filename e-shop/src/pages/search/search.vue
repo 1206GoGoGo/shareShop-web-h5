@@ -22,8 +22,11 @@
         </van-nav-bar>
         
         <div class="panel-with-search-bar">
-            <search-history v-show="!onSearch" ref="searchHistory" @do-search="handleTagClick"></search-history>
-            <product-list v-show="onSearch" :productList="productList"></product-list>
+            <search-history v-show="!onSearch" ref="searchHistory" @do-search="handleTagClick"/>
+            <sort-menu class="g-white-card" v-show="onSearch" 
+                    :totalNum="searchResult.totalNum"
+                    @reOrder="doSearch" />
+            <product-list v-show="onSearch" :productList="searchResult.productList"/>
         </div>
 
 
@@ -34,6 +37,7 @@
 <script>
 import SearchHistory from "@/components/home/sub-pages/base-components/search/search-history"
 import ProductList from '@/components/product/product-list'
+import SortMenu from '@/components/product/sort-menu'
 export default {
     model:{
         prop:'visible',
@@ -49,13 +53,19 @@ export default {
     components:{
         SearchHistory,
         ProductList,
+        SortMenu,
     },
     data:function(){
         return{
             thisVisible:this.visible,
+
             searchContent:'',
             onSearch:false,
-            productList:[],
+            searchResult:{
+                productList:[],
+                totalNum:0,
+            }
+            
 
         }
     },
@@ -103,7 +113,7 @@ export default {
                 return;
             }
             else{
-                //调整搜索历史tag顺序和更新搜索历史
+                //调整搜索历史tag顺序和更新搜索历史,将新的放在前面，如果是已经搜过的，挪到前面去
                 var storage=window.localStorage;
                 var searchHistoryList=JSON.parse(storage.getItem("search-history")||'[]');
                 var searchValueIndex=searchHistoryList.indexOf(this.searchContent);
@@ -120,12 +130,12 @@ export default {
                 storage.setItem("search-history",searchHistoryListStr);
                 
                 this.doSearch();
-                this.updateSearchHistoryPal();
+                this.updateSearchHistoryPosition();
             }
         },
 
         //update component search-history state
-        updateSearchHistoryPal:function(){
+        updateSearchHistoryPosition:function(){
             //console.log(this.$children[0]);
 
             this.$refs.searchHistory.updateList();
@@ -140,7 +150,8 @@ export default {
                 param,
                 response=>{
                     if(response.data.code==200){
-                        this.productList=response.data.data.indata;
+                        this.searchResult.productList=response.data.data.indata;
+                        this.searchResult.totalNum=response.data.data.numFound;
                     }
                     //no data
                     else if(response.data.code==400){
@@ -156,11 +167,16 @@ export default {
         },
 
         //search options
-        doSearch:function(){
+        doSearch:function(orderRule){
             var param={
                 name:this.searchContent,
                 pageindex:1,
                 pagesize:20,
+               
+            };
+            if(orderRule){
+                param.field=orderRule.field;
+                param.judge=orderRule.judge;
             }
 
             var _this=this;
@@ -169,7 +185,8 @@ export default {
                 param,
                 response=>{
                     if(response.data.code==200){
-                        _this.productList=response.data.data.indata;
+                        this.searchResult.productList=response.data.data.indata;
+                        this.searchResult.totalNum=response.data.data.numFound;
                     }
                     //no data
                     else if(response.data.code==400){

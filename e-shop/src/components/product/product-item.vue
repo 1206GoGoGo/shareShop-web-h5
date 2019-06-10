@@ -1,6 +1,6 @@
 <template>
    <div v-if="productData!=null">
-        <div class="product-item g-white-card"   @click="goToProductItem">
+        <div class="product-item g-white-card g-card-shadow-gray"   @click="goToProductItem">
             <div class="left-product-img">
                 <img :src="productData.mainImage" alt="">
             </div>
@@ -15,7 +15,7 @@
                 <div class="bot-fun-panel">
                     <div class="price">
                         <span class="price-code">$</span>
-                        <span class="price-value">{{productData.price}}</span>
+                        <span class="price-value">{{productData.minPrice}}</span>
                     </div>
                     <div class="buy">
                         <van-button size="mini" type="danger">Buy Now</van-button>
@@ -52,7 +52,7 @@ export default {
     .product-item{
         box-sizing: border-box;
         height:@height-product-item;
-        margin-top:10px;
+        margin-top:5px;
         
         //background-color:#aaa;
 
@@ -122,7 +122,7 @@ export default {
                 bottom:10px;
                 width:95%;
                 .price{
-                    
+                    font-size:0px;
                     float:left;
                     height:100%;
                     line-height: @height-product-item / 8 *1.5;

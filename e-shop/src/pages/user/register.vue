@@ -151,9 +151,7 @@ export default {
 
         }
 
-        .footer{
-
-        }
+      
     
     
 </style>

@@ -1,5 +1,12 @@
 
 
+const global_val={
+    token:"token",
+
+
+}
+
+
 const global={
     path_style:"@/assets/style/",
     path_js:"@/assets/js/",
@@ -28,6 +35,11 @@ const global={
             path:'product/'+productId,
         })
 
+    },
+
+    //set token
+    setToken:function(){
+        
     }
 
 

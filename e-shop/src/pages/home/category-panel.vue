@@ -195,10 +195,7 @@ export default {
                     border-bottom: 1px solid #E1E1E1;
                     padding:13px 6px 13px 6px;
                 }
-                .van-badge--select{
-                    //default is red,out theme color is blue
-                   // border-left-color:@color-blue;
-                }
+                
             };
             .category-list-detail{
 

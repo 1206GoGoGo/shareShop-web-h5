@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="sign-in">
-                <van-button type="info" @click="doSignIn">Sign in</van-button> 
+                <van-button type="info" :loading="loading" @click="doSignIn">Sign in</van-button> 
                 </div>
 
 
@@ -60,39 +60,81 @@ export default {
                 username:"",
                 password:"",
             },
+            loading:false,
             isRememberPasssword:false,
+        }
+    },
+    mounted(){
+        var locuser=this.$cookies.get("user");
+        if(locuser){
+            this.$forceUpdate();
+            this.$set(this.user,'username',locuser.username);
+            this.$set(this.user,'password',locuser.password);
+           
         }
     },
     methods:{
         doSignIn:function(){
+
             var _this=this;
             var redirect=this.$route.query.redirect;
-
+            this.loading=true; 
             this.http.post(
                 this.api.user.login,
                 this.user,
                 response=>{
                     if(response.data.code==200)
-                       { 
-                           this.$store.commit("update_isLogined",{isLogined:true});
+                    { 
+                        this.$store.commit("update_isLogined",{isLogined:true});
+                        this.$cookies.set("token",response.data.data);
 
-                        //    if(redirect!=''){
-                        //         this.$router.push({name:redirect});
-                        //         console.log(redirect);
-                        //    }
-                        //     else{
-                        //          console.log("/home");
-                        //         this.$router.push({path:'/home'});
-                        //     }
-                             this.$router.push({path:'/home'});
-                            console.log("login success");
-                       }
+                        
+
+                        if(this.isRememberPasssword){
+                            
+                            this.rememberPassword();
+                            
+                        }
+                        if(redirect){
+                            this.$router.push({path:redirect});    
+                            
+                        }
+                        else{
+                            this.$router.push({path:'/home'});
+                            
+                        }
+                        this.getUserInfo();   
+                    }
+
+                    this.loading=false; 
+                },
+                error=>{
+                    this.loading=false; 
+                    console.log(error);
+                    alert("error");
+                }
+            );
+
+        },
+        //登录完成后获取用户信息存入vuex
+        getUserInfo:function(){
+            this.http.get(
+                this.api.user.getInfo,
+                '',
+                response=>{
+                    if(response.status==200&&response.data.code==200){
+                      
+                        this.$store.commit("update_userInfo",response.data.data);
+                    }
+                    //console.log(response.data.data);
                 },
                 error=>{
 
                 }
-            );
-
+            )
+        },
+        rememberPassword:function(){
+            this.$cookies.set("user",this.user)
         },
         goBack:function(){
             this.$router.back(1);

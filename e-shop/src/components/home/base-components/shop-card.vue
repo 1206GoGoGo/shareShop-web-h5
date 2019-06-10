@@ -1,10 +1,10 @@
 <template>
-    <div class="shop-card g-white-card g-card-shadow-gray">
+    <div class="shop-card g-white-card g-card-shadow-gray" @click="gotoProductPage">
         <div class="img">
-            <img src="http://112.74.165.55/scarf/212.jpg" alt="">
+            <img :src="productData.mainImage" alt="">
         </div>
         <div :class="'title '+ ( top?'top':'')">
-            peaked hat1
+            {{productData.productName}}
         </div>
     </div>    
 </template>
@@ -12,7 +12,7 @@
 <script>
 export default {
     props:{
-        shopData:{
+        productData:{
             type:Object,
             default:()=>{
                 return {}
@@ -31,6 +31,15 @@ export default {
     watch:{
         topFlag:function(val){
             this.top=val;
+        }
+    },
+
+    methods:{
+        gotoProductPage:function(){
+           this.$router.push({
+                name:'product',
+                params:{id:this.productData.productId}
+                });
         }
     }
 }

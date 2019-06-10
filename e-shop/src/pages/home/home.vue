@@ -25,8 +25,8 @@
             </van-swipe>
 
            
-            <van-swipe class="category-swipe-menu g-white-card g-card-shadow-gray">
-                <van-swipe-item v-for="(pageIndex,index) in Math.ceil(categorySwipeData.length/10)" :key="index">
+            <van-swipe v-if="categorySwipeData!=[]" class="category-swipe-menu g-white-card g-card-shadow-gray" >
+                <van-swipe-item  v-for="(pageIndex,index) in Math.ceil(categorySwipeData.length/10)" :key="index">
                     <category-list-detail-item v-for="(item) in (Math.floor(categorySwipeData.length/10)>=pageIndex?8:(categorySwipeData.length-(pageIndex-1)*8))"
                     :key="item" 
                     circle
@@ -41,11 +41,11 @@
 
 
 
-            <panel-with-title title="Coupons" class="coupons">
+            <panel-with-title bold-title title="Coupons" class="coupons">
                 <div slot="main">
-                    <coupon :amount="45" placeholder="coupon1"></coupon>
-                    <coupon :amount="25" placeholder="coupon2"></coupon>
-                    <coupon :amount="5" placeholder="coupon3"></coupon>
+                    <div v-if="couponsData!=[]" class="tag-1">
+                        <coupon v-for="item in couponsData" :key=item.couponId :data="item"></coupon>
+                    </div>
                 </div>
             </panel-with-title>
 
@@ -54,20 +54,20 @@
 
 
 
-             <panel-with-title title="Hot Sale">
+             <panel-with-title bold-title title="Hot Sale">
                 <div slot="main">
                     <hot-sale></hot-sale>
 
                 </div>
             </panel-with-title>
 
-             <panel-with-title title="On Sale">
+             <panel-with-title bold-title title="On Sale">
                 <div slot="main">
                     促销商品区
                 </div>
             </panel-with-title>
 
-             <panel-with-title title="New Arrival">
+             <panel-with-title bold-title title="New Arrival">
                 <div slot="main">
                     新品区
                 </div>
@@ -104,7 +104,7 @@
 <script>
 
 
-import panelWithTitle from '@/components/home/panel-with-title';
+import panelWithTitle from '@/components/public/panel-with-title';
 import navFixed from '@/components/home/nav-fixed';
 
 
@@ -113,8 +113,8 @@ import coupon from '@/components/home/coupon';
 import categoryListDetailItem from '@/components/home/sub-pages/base-components/category/category-list-detail-item'; 
 import hotSale from '@/components/home/sub-pages/hot-sale';
 
-const categoryPanel=()=>import('@/components/home/sub-pages/category-panel');
-const searchPanel=()=>import('@/components/home/sub-pages/search-panel');
+const categoryPanel=()=>import('@/pages/home/category-panel');
+const searchPanel=()=>import('@/pages/search/search');
 
 export default {
     components:{
@@ -141,10 +141,12 @@ export default {
             },
             scrolled:false,  
             categorySwipeData:[], 
+            couponsData:[],
         }
     },
     mounted:function(){
         window.addEventListener('scroll',this.handleScroll);
+        this.initCoupons();
         this.initCategorySwipeMenu();
     },
     methods:{
@@ -174,7 +176,8 @@ export default {
                 this.api.category.getFirstLevel,
                 '',
                 response=>{
-                    this.categorySwipeData=response.data.data;
+                    if(response.status==200&&response.data.code==200)
+                        this.categorySwipeData=response.data.data;
                     //console.log(response.data);
                 },
                 error=>{
@@ -183,6 +186,23 @@ export default {
                 )
 
         },
+        //优惠券 coupons init
+        initCoupons:function(){
+            this.http.get(
+                this.api.coupon.getList,
+                '',
+                response=>{
+                    if(response.status==200&&response.data.code==200)
+                        this.couponsData=response.data.data.indata;
+
+                },
+                error=>{
+                    console.log(error);
+                }
+
+            )
+        },
+
         showUserPanel:function(e){
             //this.visibility.search=true;
             //this.scrolled=!this.scrolled;
@@ -293,7 +313,7 @@ export default {
                 box-sizing: border-box;
                 
                
-                height:100px;
+                min-height:100px;
                 width:100%;
                 
                 overflow-x: scroll;

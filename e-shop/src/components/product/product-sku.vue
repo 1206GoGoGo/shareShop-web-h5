@@ -14,10 +14,18 @@
             </div>
         </div>
 
+        <div class="body">
+            <panel-with-title title="color">
+                <div slot="main" class=""></div>
+            </panel-with-title>
+        </div>
+
     </van-popup>
 </template>
 
 <script>
+import panelWithTitle from '@/components/public/panel-with-title';
+
 export default {
 
     props:{
@@ -26,6 +34,9 @@ export default {
             default:false,
         },
        
+    },
+    components:{
+        panelWithTitle,
     },
     data:function(){
         return{
@@ -77,7 +88,7 @@ export default {
             flex-grow: 1;
             text-align: left;
             .title{
-
+                
             }
             .price{
                  padding-top:4px;
@@ -99,6 +110,11 @@ export default {
 
         }
     }
+
+    .body{
+        padding-top:10px;
+    }
+
 
 
 }

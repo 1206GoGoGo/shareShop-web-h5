@@ -13,8 +13,9 @@ module.exports = {
     proxyTable: {
 
       '/api': {
-        target:'http://112.74.165.55:8080/shareshop/',  //wang
+        target:'http://112.74.165.55:8080/shareshop/',  //aliyun
         //target: 'http://10.120.203.64:8080/shareshop/', //chen
+        //target:'http://10.120.203.1:8080/shareshop/', //wang
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
