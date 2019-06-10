@@ -47,7 +47,7 @@ axios.interceptors.response.use(
        switch(response.data.code){
            //未登录
            case 403:{
-             //console.log("need logined, path in :"+ router.currentRoute.fullPath );
+             console.log("need logined, path in :"+ router.currentRoute.fullPath );
             // console.log(response);
                 store.commit('update_isLogined',{isLogined:false});
                 router.push({

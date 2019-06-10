@@ -14,11 +14,11 @@ export default {
   },
   created:function(){
 
-    var isLogined = (this.$cookies.get("token")!='null'&&this.$cookies.get("logged_in")=='1')?true:false;
+    var isLogined = (this.$cookies.get("token")!='null')?true:false;
     //console.log(typeof(this.$cookies.get("logged_in")));
     //console.log(this.$cookies.get("logged_in"));
     this.$store.commit('update_isLogined',{isLogined:isLogined});
-    this.init();
+    this.init(isLogined);
     //console.log("in app.vue:"+ this.$store.state.isLogined);
   },
   mounted:function(){
@@ -30,9 +30,10 @@ export default {
   },
 
   methods:{
-    init:function(){
+    init:function(isLogined){
       
-      this.getUserInfo();
+      if(isLogined)
+        this.getUserInfo();
 
     },
     checkLogined:function(){

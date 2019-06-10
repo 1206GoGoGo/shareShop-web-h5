@@ -138,7 +138,7 @@ export default {
                 params,
                 response=>{
                     if(response.data.code==200){
-                          _this.productData=response.data.data;
+                          this.productData=response.data.data;
                           console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
                          // console.log(_this.skuTips);
                     }

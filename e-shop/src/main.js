@@ -38,7 +38,7 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to,from,next)=>{
-  var isLogined = (VueCookies.get('token')!='null'&&VueCookies.get('logged_in')=='1')?true:false;
+  var isLogined = (VueCookies.get('token')!='null'&&store.state.isLogined)?true:false;
 
       if(to.meta.requiredAuth&&(!isLogined)){
           // console.log(from.fullPath);
