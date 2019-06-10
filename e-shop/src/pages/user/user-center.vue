@@ -142,7 +142,11 @@ export default {
                     if(response.status==200&&response.data.code==200)
                     {
                         //console.log(response.data.data);
-                        alert("success log out");
+                        this.$router.push(
+                            {
+                                path:'/home',
+                            }
+                        );
 
                     }
 
