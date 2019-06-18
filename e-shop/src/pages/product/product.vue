@@ -123,7 +123,7 @@ export default {
     },
     mounted:function(){
         this.init();
-        
+        this.initCollect();
     },
     methods:{
         init:function(){
@@ -141,6 +141,32 @@ export default {
                           this.productData=response.data.data;
                           console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
                          // console.log(_this.skuTips);
+                    }
+                    else{
+                        
+                    }
+                  
+                },
+                error=>{
+
+                }
+            )
+
+        },
+        initCollect:function(){
+            //console.log(this.$route.params.id);
+            var _this=this;
+            var params={
+                productId:this.$route.params.id,   //商品id
+            };
+
+            this.http.get(
+                this.api.collect.getIsCollected, 
+                params,
+                response=>{
+                    if(response.data.code==200){
+                          this.isCollected=true;
+                         
                     }
                     else{
                         
@@ -188,7 +214,7 @@ export default {
         collect:function(){
             
             this.http.post(
-                this.api.collect.add,
+                this.api.collect.collectOrNot,
                 {
                     productId:this.productData.productId,
                 },
@@ -198,8 +224,8 @@ export default {
                             this.isCollected=true;
                             alert("success to collect");
                         }else if(response.data.code==406){
-                            this.isCollected=true;
-                            alert(response.data.msg);
+                            this.isCollected=false;
+                            alert("cancel collect");
                         }
 
                     }

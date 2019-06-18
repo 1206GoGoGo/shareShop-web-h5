@@ -44,8 +44,8 @@ export default{
     //收藏
     collect:{
         getListOfUser:'member/collect/getListByUser', //收藏列表
-        add:'member/collect/add',//新增收藏
-
+        collectOrNot:'member/collect/collectOrNot',//新增收藏
+        getIsCollected:'member/collect/getIsCollected',
     }
 
 

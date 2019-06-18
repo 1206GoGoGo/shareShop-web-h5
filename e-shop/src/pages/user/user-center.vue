@@ -7,7 +7,7 @@
                     <img class="head-img" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3914950518,3569645197&fm=26&gp=0.jpg" alt="">
                 </div>
                 <div class="center">
-                    <div class="name">{{user.name}}</div>
+                    <div class="name">{{user.username}}</div>
                     <div class="sub-info" v-if="user.userLogin">{{user.userLogin.username}}</div>
                 </div>
                 <div class="right">
@@ -17,8 +17,8 @@
             </div>
 
             <div class="sum-panel">
-                <num-box :num="collect.length" label="favorites"/>
-                <num-box :num="coupons.numFound" label="coupons"/> 
+                <num-box :num="user.collectionNum" label="favorites"/>
+                <num-box :num="user.couponNum" label="coupons"/> 
             </div>
 
         </div>
@@ -66,8 +66,8 @@ export default {
         //用户信息界面初始化操作：1.获取用户信息
         init:function(){
             this.getUserInfo();
-            this.getCouponListOfUser();
-            this.getCollectListOfUser();
+            //this.getCouponListOfUser();
+            //this.getCollectListOfUser();
         },
 
         getUserInfo:function(){
@@ -91,46 +91,46 @@ export default {
 
             )
         },
-        //优惠券数目
-        getCouponListOfUser:function(){
-            this.http.get(
-                this.api.coupon.getListOfUser,
-                {
-                    id:this.$store.state.user.userId,
-                },
-                response=>{
-                    if(response.status==200&&response.data.code==200)
-                    {
-                        //console.log(response.data.data);
-                        this.coupons=response.data.data;
+        // //优惠券数目
+        // getCouponListOfUser:function(){
+        //     this.http.get(
+        //         this.api.coupon.getListOfUser,
+        //         {
+        //             id:this.$store.state.user.userId,
+        //         },
+        //         response=>{
+        //             if(response.status==200&&response.data.code==200)
+        //             {
+        //                 //console.log(response.data.data);
+        //                 this.coupons=response.data.data;
 
-                    }
-                },
-                error=>{
+        //             }
+        //         },
+        //         error=>{
 
-                }
-            )
-        },
-        //收藏数
-        getCollectListOfUser:function(){
-            this.http.get(
-                this.api.collect.getListOfUser,
-                {
-                    //id:this.$store.state.user.userId,
-                },
-                response=>{
-                    if(response.status==200&&response.data.code==200)
-                    {
-                        //console.log(response.data.data);
-                        this.collect=response.data.data;
+        //         }
+        //     )
+        // },
+        // //收藏数
+        // getCollectListOfUser:function(){
+        //     this.http.get(
+        //         this.api.collect.getListOfUser,
+        //         {
+        //             id:this.$store.state.user.userId,
+        //         },
+        //         response=>{
+        //             if(response.status==200&&response.data.code==200)
+        //             {
+        //                 //console.log(response.data.data);
+        //                 this.collect=response.data.data;
 
-                    }
-                },
-                error=>{
+        //             }
+        //         },
+        //         error=>{
 
-                }
-            )
-        },
+        //         }
+        //     )
+        // },
 
 
         //登出

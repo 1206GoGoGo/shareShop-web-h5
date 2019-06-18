@@ -27,11 +27,11 @@
            
             <van-swipe v-if="categorySwipeData!=[]" class="category-swipe-menu g-white-card g-card-shadow-gray" >
                 <van-swipe-item  v-for="(pageIndex,index) in Math.ceil(categorySwipeData.length/10)" :key="index">
-                    <category-list-detail-item v-for="(item) in (Math.floor(categorySwipeData.length/10)>=pageIndex?8:(categorySwipeData.length-(pageIndex-1)*8))"
+                    <category-list-detail-item v-for="(item) in (Math.floor(categorySwipeData.length/10)>=pageIndex?10:(categorySwipeData.length-(pageIndex-1)*10))"
                     :key="item" 
                     circle
                     :categoryItemData="categorySwipeData[(pageIndex-1)*10 + item - 1]"> 
-                    {{(pageIndex-1)*8 + item - 1}}
+                    {{(pageIndex-1)*10 + item - 1}}
                     </category-list-detail-item>
                 </van-swipe-item>
             </van-swipe>
