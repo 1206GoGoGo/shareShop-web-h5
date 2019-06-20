@@ -2,29 +2,38 @@
     <van-popup class="product-sku" position="bottom" v-model="visibility.page">
         <div class="head">
             <div class="thumb">
-                <img src="" alt="">
+                <img :src='images' alt="wait a minute">
             </div>
             <div class="info">
-                <div class="title">Fashion hat</div>
-                <div class="price">$1</div>
-                <div class="stock">stock: 999</div>
+                <div class="title">{{productData.productName}}</div>
+                <div class="price" v-if="flag">{{productData.minPriceVip}}---{{productData.maxPriceVip}}</div>
+                <div class="price" v-if="!flag">{{productData.minPriceVip}}</div>
+                <div class="stock">{{productData.stock}}</div>
             </div>
             <div class="close-button">
                 <van-icon name="close" @click="hideSkuPage"></van-icon>
             </div>
         </div>
-
-        <div class="body">
-            <panel-with-title title="color">
-                <div slot="main" class=""></div>
-            </panel-with-title>
+        
+        <div class="body" v-for="(item,key) in attributeList">
+            <panel-with-title :title='item.attributeKey' >   
+                <div slot="main" class=""><product-attr :value="item.attributeValue" ref="productattr" ></product-attr></div>
+            </panel-with-title>    
         </div>
+        <div class="body">
+            <panel-with-title title='Purchase quantity' >   
+                <div slot="main" class=""><add-to-cart-num ref="addtocartNum"></add-to-cart-num></div>
+            </panel-with-title>    
+        </div>
+        <van-submit-bar button-text="Add to Cart" @submit="addtoCart()"></van-submit-bar>
 
     </van-popup>
 </template>
 
 <script>
 import panelWithTitle from '@/components/public/panel-with-title';
+import productattr from '@/components/product/product-attr';
+import addtocartNum from '@/components/cart/addtocartNum'
 
 export default {
 
@@ -37,12 +46,22 @@ export default {
     },
     components:{
         panelWithTitle,
+        'product-attr':productattr,
+        'add-to-cart-num':addtocartNum,
     },
     data:function(){
         return{
             visibility:{
                 page:this.value,
-            }
+            },
+            productData:{},
+            images:'',
+            flag:true,
+            minPrice:'',
+            maxPrice:'',
+            attributeList:[{}],
+            productSpecs:[{}],
+            msg:'dhj'
         }
     },
     watch:{
@@ -56,8 +75,77 @@ export default {
     methods:{
         hideSkuPage:function(){
             this.visibility.page=false;
+        },
+        getDetailById(){
+            //console.log(this.$route.params.id);
+            var _this=this;
+            var params={
+                id:this.$route.params.id,
+            };
+
+            this.http.get(
+                this.api.product.getDetailById,
+                params,
+                response=>{
+                    if(response.data.code==200){
+                          this.productData=response.data.data;
+                          this.images=response.data.data.mainImage;
+                          this.minPrice=response.data.data.minPrice;
+                          this.maxPrice=response.data.data.maxPrice;
+                          this.attributeList=JSON.parse(this.productData.attributeList);
+                          this.productSpecs=this.productData.productSpecs;
+                          //console.log(this.productSpecs);
+                          if(this.minPrice==this.maxPrice){
+                              this.flag=false;
+                          }
+                          //console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
+                          console.log(response);
+                          console.log(this.attributeList);
+                    }
+                    else{
+                        
+                    }
+                  
+                },
+                error=>{
+
+                }
+            )
+
+        },
+        addtoCart(){
+            //将商品添加到购物车，要做一些验证
+            console.log('addtocart');
+
+            var params={
+                productId:this.$route.params.id,   //商品id
+                productSpecsId:1,       //规格id
+                productQuantity:this.$refs.addtocartNum.num,
+            };
+
+            this.http.post(
+                this.api.cart.addToCart, 
+                params,
+                response=>{
+                    if(response.data.code==200){
+                          alert("success to shopcart")
+                    }
+                    else{
+                        
+                    }
+                  
+                },
+                error=>{
+
+                }
+            )
         }
-    }
+        
+    },
+    mounted(){
+        this.getDetailById();
+        
+    },
 
 }
 </script>

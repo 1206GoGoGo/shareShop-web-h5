@@ -22,15 +22,23 @@
             </div>
             <div class="price">
                 <span class="price-area">
-                    <div class="org-price">
+                    <div class="org-price" v-if="flag">
                         <span class="price-code">$</span>
                         <span class="price-value">{{productData.minPrice}}-</span>
                         <span class="price-value">{{productData.maxPrice}}</span>
                     </div>
-                    <div class="vip-price">
+                    <div class="org-price" v-if="!flag">
+                        <span class="price-code">$</span>
+                        <span class="price-value">{{productData.minPrice}}</span>
+                    </div>
+                    <div class="vip-price" v-if="flag">
                         <span class="price-code">$</span>
                         <span class="price-value">{{productData.minPriceVip}}-</span>
                         <span class="price-value">{{productData.maxPriceVip}}</span>
+                    </div>
+                    <div class="vip-price" v-if="!flag">
+                        <span class="price-code">$</span>
+                        <span class="price-value">{{productData.minPriceVip}}</span>
                     </div>
                 </span>
                 <span class="rate">
@@ -95,6 +103,9 @@ export default {
                 sku:false,
             },
             isCollected:false,
+            flag:true,
+            minPrice:'',
+            maxPrice:'',
         }
     },
     computed:{
@@ -139,8 +150,15 @@ export default {
                 response=>{
                     if(response.data.code==200){
                           this.productData=response.data.data;
+                          this.minPrice=response.data.data.minPrice;
+                          this.maxPrice=response.data.data.maxPrice;
+                          //console.log(this.minPrice);
+                          //console.log(this.maxPrice);
+                          if(this.minPrice == this.maxPrice){
+                              this.flag=false;
+                          }
                           console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
-                         // console.log(_this.skuTips);
+                          // console.log(_this.skuTips);
                     }
                     else{
                         
