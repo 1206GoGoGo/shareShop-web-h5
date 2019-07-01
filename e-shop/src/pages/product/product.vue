@@ -94,10 +94,10 @@ export default {
             actionfunctionPanel:'0',
             productData:{},
             tepimgUrl:[
-                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/first/1000/1.jpg",
-                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other1/1000/2.jpg",
-                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other2/1000/3.jpg",
-                "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other3/1000/4.jpg"
+                //"http://47.100.42.218:81/img/1.png",   //防止某商品无图片时使用
+                // "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other1/1000/2.jpg",
+                // "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other2/1000/3.jpg",
+                // "https://www.uniqlo.cn/hmall/test/u0000000005573/main/other3/1000/4.jpg"
             ],
             visibility:{
                 sku:false,
@@ -135,6 +135,7 @@ export default {
     mounted:function(){
         this.init();
         this.initCollect();
+        this.getPicList();
     },
     methods:{
         init:function(){
@@ -149,15 +150,17 @@ export default {
                 params,
                 response=>{
                     if(response.data.code==200){
+                          this.tepimgUrl[0] = response.data.data.mainImage;
                           this.productData=response.data.data;
                           this.minPrice=response.data.data.minPrice;
                           this.maxPrice=response.data.data.maxPrice;
                           //console.log(this.minPrice);
                           //console.log(this.maxPrice);
+                          
                           if(this.minPrice == this.maxPrice){
                               this.flag=false;
                           }
-                          console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
+                          //console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
                           // console.log(_this.skuTips);
                     }
                     else{
@@ -184,6 +187,37 @@ export default {
                 response=>{
                     if(response.data.code==200){
                           this.isCollected=true;
+                         
+                    }
+                    else{
+                        
+                    }
+                  
+                },
+                error=>{
+
+                }
+            )
+
+        },
+        getPicList:function(){
+            //console.log(this.$route.params.id);
+            var _this=this;
+            var params={
+                id:this.$route.params.id,   //商品id
+            };
+
+            this.http.get(
+                this.api.product.getPicList, 
+                params,
+                response=>{
+                    if(response.data.code==200){
+                        //console.log(response.data.data.length);
+                          //this.tepimgUrl.push();
+                        for(var i = 0; i < response.data.data.length; i++){
+                            this.tepimgUrl.push(response.data.data[i].picUrl);
+                        }
+                            
                          
                     }
                     else{
@@ -314,6 +348,7 @@ export default {
         .van-swipe-item{
             img{
                 width:100%;
+                height: 330px;
             }
             
         }

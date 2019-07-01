@@ -1,11 +1,13 @@
 <template> 
-        <div class="product-info"  @click="goToProductPage">
-            <img  class="thumb" :src="productData.thumb">
+        <div class="product-info"  @click="goToProductPage(productData.productId)">
+            <img  class="thumb" :src="productData.mainImage">
             <div class="right-info-detail">
-                <div class="product-name">{{productData.name}}</div>
-                <div class="product-sku">{{productData.sku.name}}</div>
+                <div class="product-name">{{productData.productName}}</div>
+                <!--这里应该写上自己选择的商品规格-->
+                <!--<div class="product-sku">{{productData.}}</div>-->
                 <div class="bot-panel">
-                    <div class="price">$ {{parseFloat(productData.price).toFixed(2)}}</div>
+                    <!--下面的价格也应该是对应规格的正式价格-->
+                    <div class="price">$ {{parseFloat(productData.minPriceVip).toFixed(2)}}</div>
                     <div class="stepper">
                         <van-stepper v-model="productData.num" integer/>
                     </div>
@@ -33,9 +35,9 @@ export default {
         }
     },
     methods:{
-         goToProductPage:function(){
+         goToProductPage:function(val){
             console.log("gotoproduct");
-            this.global.goToProductDetailPage(this.$router,4);
+            this.global.goToProductDetailPage(this.$router,val);
         },
     }
 

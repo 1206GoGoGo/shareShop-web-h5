@@ -1,12 +1,11 @@
-
 <template>
-    <div class="hot-sale-page">
+    <div class="my-favorites">
         <div class="header">
             <div class="left" @click="goBack">
                 <van-icon name="arrow-left"/>
                 <span class="label">back</span>
             </div>
-            <div class="center">Hot Sales</div>
+            <div class="center">My Favorites</div>
             <div class="right"></div>
             
         </div>
@@ -46,15 +45,12 @@ export default {
         getProductList:function(){
             
             this.http.get(
-                this.api.search.getList.url,
-                {
-                    pageIndex:this.pageIndex,
-                    pageSize:20,
-                    field:this.api.search.getList.field.hotSale,
-                },
+                this.api.collect.getListOfUser,
+                '',
                 response=>{
                     if(response.status==200&&response.data.code==200){
-                        this.productList=response.data.data.indata;
+                        //console.log(response);
+                        this.productList=response.data.data;
                     }
                 }
 
@@ -74,7 +70,7 @@ export default {
 @header-height:50px;
 @normal-width:96%;
 @normal-radius:15px;
-.hot-sale-page{
+.my-favorites{
     .header{
         z-index: 20;
         background:@color-blue;
@@ -117,12 +113,10 @@ export default {
     }
 
     .main{
-        z-index: 10;
         margin-top:@header-height;
         padding-top:10px;
-
+        z-index: 10;
         .product-list{
-            
             //.g-card-shadow();
             width:@normal-width;
             min-height: 100px;

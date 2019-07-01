@@ -28,7 +28,9 @@ export default{
     product:{
         getDetailById:'pro/info/getDetail',
         getDetailByCode:'pro/info/getDetailByCode',
-        getList:'pro/info/getList'
+        getList:'pro/info/getList',
+        getPicList:'pro/info/getPicList',    //获取商品的所有图片
+        getRecommendPro:'pro/info/getRecommendPro'  //获取推荐的商品用作轮播图
     },
     cart:{
         addToCart:'member/shopcart/add',
@@ -46,7 +48,10 @@ export default{
         getListOfUser:'member/collect/getListByUser', //收藏列表
         collectOrNot:'member/collect/collectOrNot',//新增收藏
         getIsCollected:'member/collect/getIsCollected',
+    },
+    address:{
+        getListByUser:'member/address/getListByUser',   //某用户收货地址
+        add:'member/address/add'
     }
-
 
 }

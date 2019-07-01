@@ -11,23 +11,68 @@
                     <div class="sub-info" v-if="user.userLogin">{{user.userLogin.username}}</div>
                 </div>
                 <div class="right">
-                    <span class="label">edit</span>
+                    <span class="label" @click="edit()">Detail</span>
                     <van-icon name="arrow"/>
                 </div>
             </div>
 
             <div class="sum-panel">
-                <num-box :num="user.collectionNum" label="favorites"/>
-                <num-box :num="user.couponNum" label="coupons"/> 
+                <div @click="getfavorites()"><num-box :num="user.collectionNum" label="favorites"/></div>
+                <div @click=""><num-box :num="user.couponNum" label="coupons"/> </div>
             </div>
 
         </div>
         <div class="main-menu-panel">
             <div class="float-card g-white-card">
-
+                <van-cell value="All" icon="shop-o" is-link>
+                    <template slot="title">
+                        <span class="custom-text">Orders</span>
+                    </template>
+                </van-cell>
+                <div class="order">
+                    <van-goods-action-mini-btn
+                        icon="credit-pay"
+                        text="待付款"/>
+                </div>
+                <div class="order">
+                    <van-goods-action-mini-btn
+                        icon="upgrade"
+                        text="待发货"
+                        info="3"/>
+                </div>
+                <div class="order">
+                    <van-goods-action-mini-btn
+                        icon="logistics"
+                        text="待收货"/>
+                </div>
+                <div class="order">
+                    <van-goods-action-mini-btn
+                        icon="comment-o"
+                        text="评价"/>
+                </div>
+                <div class="order">
+                    <van-goods-action-mini-btn
+                        icon="after-sale"
+                        text="退款/售后"/>
+                </div>
+                
             </div>
-            <div class="float-card g-white-card">
-
+            <div class="float-card-util g-white-card">
+                <div class="util">
+                    <van-goods-action-mini-btn
+                        icon="orders-o"
+                        text="我的账单"/>
+                </div>
+                <div class="util">
+                    <van-goods-action-mini-btn
+                        icon="diamond-o"
+                        text="地址管理" @click="addressManager"/>
+                </div>
+                <div class="util">
+                    <van-goods-action-mini-btn
+                        icon="coupon-o"
+                        text="领券中心"/>
+                </div>
             </div>
         </div>
 
@@ -90,6 +135,18 @@ export default {
 
 
             )
+        },
+        edit(){
+            //console.log("edit user message");
+            this.$router.push({name:'editmsg'});
+        },
+        getfavorites(){
+            //console.log("favorites");
+            this.$router.push({name:'getfavorites'});
+        },
+        addressManager(){
+            //console.log("addressManager");
+            this.$router.push({name:'addressManager'});
         },
         // //优惠券数目
         // getCouponListOfUser:function(){
@@ -246,7 +303,7 @@ export default {
                 display: flex;
                 align-items: center;
                 opacity: 0.9;
-                width:40px;
+                width:50px;
                 &>*{
                     height:20px;
                     //border:1px solid;
@@ -274,7 +331,8 @@ export default {
             .num-label-box{
                 height:100%;
                 width:25%;
-               
+                margin-left: 20px;
+
                 color:#fff;
             }
 
@@ -283,7 +341,7 @@ export default {
     .main-menu-panel{
         .float-card{
             width:@normal-width;
-            height:100px;
+            height:110px;
             margin:0 auto;
             margin-top:10px;
             border-radius:@card-radius;
@@ -291,8 +349,33 @@ export default {
             &:first-child{
                 margin-top:-30px;
             }
+            .order{
+                float:left;
+                //border: 1px solid;
+                width:20%;
+                height:50%;
+                margin-top: 5px;
+            }
         
         }
+        
+        .float-card-util{
+            width:@normal-width;
+            height:70px;
+            margin:0 auto;
+            margin-top:10px;
+            border-radius:@card-radius;
+            .util{
+                float:left;
+                //border: 1px solid;
+                width:33%;
+                height:100%;
+                margin-top: 5px;
+            }
+        
+        }
+        
+
 
     }
 

@@ -16,10 +16,7 @@
                     v-model="productsData[index]"  @selected-shop="handleShopSelected">
             </product-card>
             
-        </div>
-        
-
-     
+        </div> 
 
         <van-submit-bar
         :price="totalPrice"
@@ -54,7 +51,7 @@ export default {
                     storeId:1,
                     isSelected:false,
                     goodsList:[
-                       
+                    {}
                     ]
                 },
             ],
@@ -152,16 +149,47 @@ export default {
                 this.api.cart.getList,
                 '',
                 response=>{
-                    consoel.log(response);
+                    if(response.data.code==200){
+                        //console.log(response);
+                        for(var i = 0; i < response.data.data.length; i++){
+                            //console.log(response.data.data[i].productId);
+                            this.getProInfoByProId(response.data.data[i].productId, i);
+                        }
+
+                        
+                    } 
                 },
                 error=>{
 
                 }
             )
+        },
+        getProInfoByProId(val,i){
+            
+            var params={
+                id:val,
+            };
+            this.http.get(
+                this.api.product.getDetailById,
+                params,
+                response=>{
+                    if(response.data.code==200){
+                        
+                        //console.log(response);
+                        //console.log(response.data.data);
+                        if(i == 0)  //判断，避免出现goodsList的第一个为空的情况
+                            this.productsData[0].goodsList[0] = response.data.data;
+                        else
+                            this.productsData[0].goodsList.push(response.data.data);
+                            
+                        //console.log(this.productsData[0])
+                        
+                    } 
+                },
+                error=>{
 
-
-
-
+                }
+            )
         },
         handleShopSelected:function(){
             var tep=true;
@@ -186,7 +214,7 @@ export default {
         //submit order
         submit:function(){
             var result=this.checkSelected();
-           console.log(result);
+            console.log(result);
             if(!result.flag&&result.count==0){
                 this.$toast("You haven't selected a product yet !");
             }
@@ -221,6 +249,7 @@ export default {
 .cart{
 
     .nav-bar{
+        z-index: 20;
         position: fixed;
         top:0;
         width:100%;
@@ -241,6 +270,7 @@ export default {
     }
 
     .fun-panel{
+        z-index: 10;
         margin-top:@panel-with-nav-bar-mgt;
         //padding-top:10px;
 

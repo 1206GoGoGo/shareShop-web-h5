@@ -17,12 +17,12 @@
         
         <div class="body" v-for="(item,key) in attributeList">
             <panel-with-title :title='item.attributeKey' >   
-                <div slot="main" class=""><product-attr :value="item.attributeValue" ref="productattr" ></product-attr></div>
+                <div slot="main" class=""><product-attr :value="item.attributeValue" ref="proattr" ></product-attr></div>
             </panel-with-title>    
         </div>
         <div class="body">
             <panel-with-title title='Purchase quantity' >   
-                <div slot="main" class=""><add-to-cart-num ref="addtocartNum"></add-to-cart-num></div>
+                <div slot="main" class="addNum"><van-stepper v-model="num"/></div>
             </panel-with-title>    
         </div>
         <van-submit-bar button-text="Add to Cart" @submit="addtoCart()"></van-submit-bar>
@@ -33,7 +33,6 @@
 <script>
 import panelWithTitle from '@/components/public/panel-with-title';
 import productattr from '@/components/product/product-attr';
-import addtocartNum from '@/components/cart/addtocartNum'
 
 export default {
 
@@ -47,13 +46,13 @@ export default {
     components:{
         panelWithTitle,
         'product-attr':productattr,
-        'add-to-cart-num':addtocartNum,
     },
     data:function(){
         return{
             visibility:{
                 page:this.value,
             },
+            num:1,
             productData:{},
             images:'',
             flag:true,
@@ -61,7 +60,9 @@ export default {
             maxPrice:'',
             attributeList:[{}],
             productSpecs:[{}],
-            msg:'dhj'
+            prospec:[],         //存选中的属性
+            specs:{},       //存放规格
+            attrkey:[],     //存放属性key
         }
     },
     watch:{
@@ -100,7 +101,7 @@ export default {
                           }
                           //console.log(JSON.parse("\'"+_this.productData.attributeList+"\'"));
                           console.log(response);
-                          console.log(this.attributeList);
+                          //console.log(this.attributeList);
                     }
                     else{
                         
@@ -115,12 +116,41 @@ export default {
         },
         addtoCart(){
             //将商品添加到购物车，要做一些验证
-            console.log('addtocart');
+            //console.log('addtocart');
+            
+            let ch = this.$refs.proattr;
+            //console.log(ch);
+            var len = this.$refs.proattr.length;
+            for(var i = 0 ; i < len; i++){
+                ch[i].buntt();      //暂未解决
+                this.prospec.push(ch[i].sel);
+                //console.log(this.prospec);
+            }
+            
+            for(var x = 0; x < this.attributeList.length; x++){
+                var m = this.attributeList[x].attributeKey;
+                this.attrkey.push(m);
+            }
+            console.log(this.attrkey);
+            var index1 = 0;
+            var index2 = 0;
+            for(var j = 0; j < this.productSpecs.length; j++){
+                this.specs=JSON.parse(this.productSpecs[j].specs);
+                console.log(this.prospec[index1++]);
+                var y = this.attrkey[index2++];
+                console.log(y)
+                //console.log(this.specs.y);      //就是得不到属性的key
+                    
+                //console.log(this.specs.color)
+                //console.log(this.specs.size)
+            }
+            
+            this.attrkey=[];
 
             var params={
                 productId:this.$route.params.id,   //商品id
                 productSpecsId:1,       //规格id
-                productQuantity:this.$refs.addtocartNum.num,
+                productQuantity:this.num,
             };
 
             this.http.post(
@@ -201,6 +231,11 @@ export default {
 
     .body{
         padding-top:10px;
+        .addNum{
+            margin-left:10px;
+            margin-top:10px;
+            float:left;
+        }
     }
 
 

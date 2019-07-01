@@ -19,9 +19,12 @@
 
           <div :class="'main-area '+(!scrolled?'is-scrolled':'panel-with-nav-bar')">
 
+            
+              <!--轮播图-->
             <van-swipe class="ad-swipe-menu g-white-card" :autoplay="2000">
-                <van-swipe-item></van-swipe-item>
-                <van-swipe-item></van-swipe-item>
+                <van-swipe-item v-for="(image, index) in proRecommand" :key="index">
+                    <img class="ad-img" v-lazy="image.mainImage" @click="goToProductItem(image.productId)"/>
+                </van-swipe-item>
             </van-swipe>
 
            
@@ -142,12 +145,14 @@ export default {
             scrolled:false,  
             categorySwipeData:[], 
             couponsData:[],
+            proRecommand:{},    //存放所有推荐的商品
         }
     },
     mounted:function(){
         window.addEventListener('scroll',this.handleScroll);
         this.initCoupons();
         this.initCategorySwipeMenu();
+        this.getRecommendPro();
     },
     methods:{
         handleScroll:function(){
@@ -202,7 +207,22 @@ export default {
 
             )
         },
+        getRecommendPro:function(){
+            this.http.get(
+                this.api.product.getRecommendPro,
+                '',
+                response=>{
+                    if(response.status==200&&response.data.code==200)
+                        //console.log(response);
+                        this.proRecommand = response.data.data;
+                        //console.log(this.proRecommand);
+                },
+                error=>{
+                    console.log(error);
+                }
 
+            )
+        },
         showUserPanel:function(e){
             //this.visibility.search=true;
             //this.scrolled=!this.scrolled;
@@ -211,6 +231,10 @@ export default {
             //     path:'/search',
             // });
            
+        },
+        goToProductItem:function(val){
+            //console.log(this.productData.productId);
+            this.$router.push({name:'product',params:{id:val}});
         }
 
     }
@@ -259,7 +283,10 @@ export default {
         .ad-swipe-menu{
             height:150px;
             background-color:@color-red-font;
-            
+            .ad-img{
+                height:150px;
+                width:100%;
+            }
         }
         .category-swipe-menu{
             margin-top:15px;

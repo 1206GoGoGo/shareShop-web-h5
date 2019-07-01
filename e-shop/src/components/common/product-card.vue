@@ -169,7 +169,7 @@ export default {
 
         .top{
             height:30px;
-           line-height:30px;
+            line-height:30px;
             .store-title{
                  height:100%;
                  padding-left:10px;

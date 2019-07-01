@@ -42,7 +42,7 @@ export default {
             this.http.post(
                 this.api.coupon.receiveOne,
                 {
-                    userId:this.$store.state.user.userId,
+                    //userId:this.$store.state.user.userId,
                     couponId:this.data.couponId,
                 },
                 response=>{

@@ -6,6 +6,11 @@ const home=()=>import('@/pages/home/home');
 const cart=()=>import('@/pages/cart/cart');
 const confirmOrder=()=>import('@/pages/cart/confirm-order')
 const mine=()=>import('@/pages/user/user-center');
+const editmsg=()=>import('@/pages/user/user-editmsg');
+const getfavorites=()=>import('@/pages/user/user-getfavorites');
+const addressManager=()=>import('@/pages/user/user-address');
+const addAddress=()=>import('@/pages/user/user-add-address');
+
 
 const hotsale=()=>import('@/pages/home/hot-sale');
 const search=()=>import('@/pages/search/search');
@@ -76,6 +81,39 @@ export default new Router({
       meta:{
         requiredAuth:true,
       }
-    }
+    },
+    {
+      path:'/editmsg',
+      name:'editmsg',
+      component:editmsg,
+      meta:{
+        requiredAuth:true,
+      }
+    },
+    {
+      path:'/getfavorites',
+      name:'getfavorites',
+      component:getfavorites,
+      meta:{
+        requiredAuth:true,
+      }
+    },
+    {
+      path:'/addressManager',
+      name:'addressManager',
+      component:addressManager,
+      meta:{
+        requiredAuth:true,
+      }
+    },
+    {
+      path:'/addAddress',
+      name:'addAddress',
+      component:addAddress,
+      meta:{
+        requiredAuth:true,
+      }
+    },
+    
   ]
 })
