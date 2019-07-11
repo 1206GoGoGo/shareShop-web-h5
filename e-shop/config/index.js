@@ -9,6 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
+    //assetsPublicPath: './',
     assetsPublicPath: '/',
     proxyTable: {
 
@@ -16,7 +17,7 @@ module.exports = {
         target:'http://112.74.165.55:8080/shareshop/',  //aliyun
         //target: 'http://10.120.203.64:8080/shareshop/', //chen
         //target:'http://10.120.203.1:8080/shareshop/', //wang
-        //target:'http://10.120.78.76:8081/shareshop/',//lu
+        //target:'http://10.120.248.144:8081/shareshop',    //lu，IP地址竟然变了
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'

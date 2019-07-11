@@ -69,7 +69,7 @@ export default {
             },
             response=>{
                 if(response.status==200&&response.data.code==200){
-                    console.log('success save')
+                    this.$router.push({name:'addressManager'});
                     
                 }
             },

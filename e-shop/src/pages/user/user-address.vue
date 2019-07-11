@@ -3,21 +3,22 @@
         <van-nav-bar
         title="My Address"
         left-text="Back"
+        right-text="Add"
         left-arrow
         @click-left="onClickLeft"
+        @click-right="onAdd"
         />
 
           
-          <van-address-list
-          v-model="chosenAddressId"
-          v-if="flag"
-          :list="list"
-          @add="onAdd"
-          @edit="onEdit"
-          />
+        <van-address-list
+        v-if="flag"
+        v-model="chosenAddressId"
+        :list="list"
+        @edit="onEdit"
+        @add="onAdd"
+        />
           
-          <van-button class="vbutt" type="danger" size="large" v-if="!flag" @click="onAdd()">Add new address</van-button> 
-
+    
     </div>
 </template>
 
@@ -25,7 +26,7 @@
 export default {
   data() {
     return {
-      flag:true,
+      flag:false,
       chosenAddressId: '',
       list: [
         {
@@ -48,7 +49,7 @@ export default {
         this.$router.back(-1);
     },
     onAdd() {
-        this.$router.push({name:'addAddress'});;
+        this.$router.push({name:'addAddress'});
     },
 
     onEdit(item, index) {
@@ -62,11 +63,7 @@ export default {
                 if(response.status==200){
                   
                   //console.log(response)
-                  if(response.data.code == 400){
-                      this.flag = false;
-      
-                  }     
-                  else if(response.data.code == 200){
+                  if(response.data.code == 200){
                       let ch = response.data.data.indata;
                   
                       if(ch.length > 0){
@@ -91,6 +88,7 @@ export default {
                           this.list.push(this.list1);
 
                       }
+                      this.flag=true;
                   }
                    
                 }
