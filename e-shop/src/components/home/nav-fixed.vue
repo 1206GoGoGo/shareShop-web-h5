@@ -1,7 +1,7 @@
 <template>
-    <div class="nav-fixed g-white-card">
+    <div class="nav-fixed g-blue-card">
         <div class="left-button" @click="handleLeftClick">
-            <van-icon name="apps-o"></van-icon>
+            <van-icon name="apps-o" color="#fff"></van-icon>
         </div>
         <div class="center">
             <div :class="'name '+ (isScrolled?'scroll-active':'')">ShareShop</div>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="right-button" @click="handleRightClick">
-             <van-icon name="user-o"></van-icon>
+             <van-icon name="user-o" color="#fff"></van-icon>
         </div>
     </div>
 </template>
@@ -65,6 +65,11 @@ export default {
         height:35px;
         line-height: 35px;
         padding-top:2px;
+        // &:before{
+        //     content:"\F007";
+        //     color: #f4f4f4;
+        // }
+    
     }
     .right-button{
         z-index:2;
@@ -79,6 +84,7 @@ export default {
     }
 
     .center{
+        color:#f4f4f4;
         //height:35px;
         position: relative; 
         .name{

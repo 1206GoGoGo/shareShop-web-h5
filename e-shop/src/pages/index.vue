@@ -5,7 +5,7 @@
         </div>
         <van-tabbar v-model="currentTab">
             <van-tabbar-item icon="wap-home" to="/home">Home</van-tabbar-item>
-            <van-tabbar-item icon="shopping-cart" :info="cart_num>0?cart_num:''" to="/cart">Cart</van-tabbar-item>
+            <van-tabbar-item icon="shopping-cart"  to="/cart">Cart</van-tabbar-item>
             <van-tabbar-item icon="manager" to="/mine">Mine</van-tabbar-item>
         </van-tabbar>
 

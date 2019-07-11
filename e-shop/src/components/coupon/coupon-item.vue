@@ -1,64 +1,46 @@
 <template>
     <div class="coupon" >
-        <div class="outer" @click="getCoupon">
+        <div class="outer" >
             <div class="left">
                     <div class="value">
                         <div class="up-sub">$</div>
-                        <div class="true-value">{{data.couponMoney}}</div>
+                        <div class="true-value">{{couponData.couponMoney}}</div>
                     </div>
-                    <div class="name">{{data.name}}</div>
+                    <div class="name">coupon</div>
             </div>
             <div class="right">
                 <div class="v-center">
                     <ul>
-                        <li class="use-condition">满{{data.fullMoney}}可用</li>
-                        <li class="interval">{{data.endTime|formatDate}}前可用</li>
-                        <li class="remain">剩余{{data.remainingQuantity}}张</li>
-                        <li class="category">{{data.categoryName}}类目可用</li>
+                        <li class="use-condition">满{{couponData.fullMoney}}可用</li>
+                        <li class="interval">{{couponData.receiveTime|formatDate}}前可用</li>
+                        <!-- 类目需要传 -->
+                        <li class="category">{{couponData.categoryName}}类目可用</li>
+                        <li class="coupon-info">这里是优惠券的使用信息~~~~</li>
                     </ul>
                 </div>
-                    
             </div>
        </div>
     </div>    
 </template>
 
+
+
 <script>
 export default {
-    props:{
-        data:{
-            type:Object,
-            default:()=>{return {}},
-        },
-    },
-    data:function(){
-        return{
+  
+   methods:{
+       init(){
             
+       }
+   },
+    props:{
+        couponData:{
+                
         }
     },
-    methods:{
-        getCoupon:function(){
-            //console.log("领取优惠券");
-            this.http.post(
-                this.api.coupon.receiveOne,
-                {
-                    //userId:this.$store.state.user.userId,
-                    couponId:this.data.couponId,
-                },
-                response=>{
-                    if(response.status==200&&response.data.code==200){
-                        this.$toast(response.data.msg);
-
-                    }
-                },
-                error=>{
-
-                }
-            );
-
-
-        }
-    }
+    mounted(){
+       this.init()
+   },
 }
 </script>
 <style lang="less" scoped>
@@ -66,13 +48,14 @@ export default {
 .coupon{
     display: inline-block;
     margin-right:10px;
+    height: 110px;
+
    
     .outer{
        
         height:100px;
-        width:240px;
         display: flex;
-       
+        width: 330px;
        
         overflow: hidden;
         border-radius:8px;
@@ -80,7 +63,7 @@ export default {
         .left{
             position:relative;
             box-sizing: border-box;
-            width:80px;
+            width:100px;
             height:100%;
             background-color:@blue;
             color:#fff;
@@ -88,26 +71,9 @@ export default {
             flex-wrap: wrap;
             
             align-content:center;
-            background:
-            radial-gradient(circle at top left,
-            transparent 0px,@blue 0)top left,
-            radial-gradient(circle at top right,
-            transparent 6px,@blue 0)top right,
-            radial-gradient(circle at bottom right,
-            transparent 6px, @blue 0)bottom right,
-            radial-gradient(circle at bottom left,
-            transparent 0px,@blue 0)bottom left;
-            background-size:50% 50%;
-            background-repeat:no-repeat;
-            &:after{
-                content:"";
-                height:88px;
-                width:0px;
-                position:absolute;
-                left:80px;
-                top:6px;
-                border-right:2px dashed @blue;
-            }
+            
+            
+            
             &>div{
                 width:100%;
             }
@@ -133,6 +99,7 @@ export default {
             }
             .name{
                 font-size:13px;
+
                 height:30px;
                 line-height:30px;
             }
@@ -140,7 +107,7 @@ export default {
             
         }
         .right{
-            width: 160px;
+            width: 230px;
             background:
             radial-gradient(circle at top left,
             transparent 6px,#fff 0)top left,
@@ -164,6 +131,7 @@ export default {
                height:100%;
                 align-items: center;
 
+
             ul{
                // height:100%;
                 padding-left:25px;
@@ -175,8 +143,12 @@ export default {
                     width:100%;
                     text-indent: -5px;
                     margin-top:3px;
-
+                    
                 }
+                .coupon-info{
+                    color:#808080;
+                }
+                
             }
             }
         }

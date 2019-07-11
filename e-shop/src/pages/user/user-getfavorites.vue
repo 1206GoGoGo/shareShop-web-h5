@@ -22,7 +22,6 @@
 
 <script>
 import ProductList from '@/components/product/product-list';
-
 export default {
     components:{
         ProductList,
@@ -45,11 +44,17 @@ export default {
         getProductList:function(){
             
             this.http.get(
+                //获取后台数据 在request中的api.js中
                 this.api.collect.getListOfUser,
+                //无参数 
                 '',
+                //拿到数据
                 response=>{
+                    //判断是否拿到数据
                     if(response.status==200&&response.data.code==200){
-                        //console.log(response);
+                        //控制台输出拿到的东西response
+                        console.log(response);
+                        //将拿到的收藏列表数据赋值给productList
                         this.productList=response.data.data;
                     }
                 }

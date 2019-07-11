@@ -18,7 +18,7 @@
 
             <div class="sum-panel">
                 <div @click="getfavorites()"><num-box :num="user.collectionNum" label="favorites"/></div>
-                <div @click=""><num-box :num="user.couponNum" label="coupons"/> </div>
+                <div @click="getcoupons()"><num-box :num="user.couponNum" label="coupons"/> </div>
             </div>
 
         </div>
@@ -143,6 +143,11 @@ export default {
         getfavorites(){
             //console.log("favorites");
             this.$router.push({name:'getfavorites'});
+        },
+        //
+        getcoupons(){
+            //console.log("coupons");
+            this.$router.push({name:'getcoupons'});
         },
         addressManager(){
             //console.log("addressManager");

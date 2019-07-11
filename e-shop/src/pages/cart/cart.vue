@@ -11,11 +11,11 @@
             </van-col>
         </van-row>
 
-        <div class="fun-panel">
+        <div class="fun-panel" v-if="flag">
             <product-card v-for="(item,index) in adjustedProductsData" :key="index" :deep="selectedAllDeepFlag"
-                    v-model="productsData[index]"  @selected-shop="handleShopSelected">
+                    v-model="productsData[index]"  @selected-shop="handleShopSelected" >
+                    
             </product-card>
-            
         </div> 
 
         <van-submit-bar
@@ -55,6 +55,7 @@ export default {
                     ]
                 },
             ],
+            flag:false,
             //totalPrice:0,
 
         }
@@ -149,15 +150,22 @@ export default {
                 this.api.cart.getList,
                 '',
                 response=>{
+
+                    // console.log(response);
+
                     if(response.data.code==200){
-                        //console.log(response);
+                        // console.log(response);
+                        this.flag=true;
                         for(var i = 0; i < response.data.data.length; i++){
                             //console.log(response.data.data[i].productId);
                             this.getProInfoByProId(response.data.data[i].productId, i);
                         }
-
-                        
+                    
+                  
                     } 
+                   
+                        
+                    
                 },
                 error=>{
 
@@ -256,16 +264,16 @@ export default {
         height:@nav-bar-height;
         line-height:@nav-bar-height;
         box-shadow: 0 0px 3px 0px @color-lightgray-border;
-
-        
+        background-color:@color-blue-background;
 
         .title{
             font-size:16px;
+            color:@color-white;
         }
 
         .right{
             font-size:12px;
-            color:@color-gray-font;
+            color:@color-white;
         }
     }
 
@@ -296,6 +304,7 @@ export default {
             font-size:16px;
             height:@submit-bar-height;
             line-height:@submit-bar-height;
+            background-color:@color-blue-background;
         }
 
         .van-checkbox{

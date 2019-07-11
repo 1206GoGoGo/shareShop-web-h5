@@ -4,7 +4,8 @@
             <img :src="productData.mainImage" alt="">
         </div>
         <div :class="'title '+ ( top?'top':'')">
-            {{productData.productName}}
+            <div class="title-text"> {{productData.productName}}</div>
+                  
         </div>
     </div>    
 </template>
@@ -51,15 +52,15 @@ export default {
         height:144px;
         max-width:120px;
         padding-top:10px;
-        border-radius:8px;
+        //border-radius:8px;
         z-index:0;
         overflow: hidden;
         .img{
             position: relative;
            height:110px;
            background-color:#fff;
-            border-bottom-left-radius: 20px;
-           border-bottom-right-radius: 20px;
+            //border-bottom-left-radius: 20px;
+           //border-bottom-right-radius: 20px;
            z-index:1;
             img{
                 margin:0 auto;
@@ -78,10 +79,14 @@ export default {
             height:35px;
             font-size:14px;
             color:#fff;
-            background-color:@color-coral-background;
+            background-color:@color-blue-background;
+            .title-text{
+                margin-top:10px
+            }
         }
+
         .top{
-             background-color:@color-red-background;
+            
         }
     }
 </style>

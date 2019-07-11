@@ -1,9 +1,8 @@
-
 <template>
-    <div class="product-list">
+    <div class="coupon-list">
         
         <div>
-            <product-item v-for="item in productList" :key="item.productId" :productData="item"></product-item>
+            <v-couponitem v-for="item in couponList" :key="item.couponId" :couponData="item"></v-couponitem>
         </div>
        
         
@@ -11,16 +10,12 @@
 </template>
 
 <script>
-import ProductItem from '@/components/product/product-item'
+import CouponItem from '@/components/coupon/coupon-item'
 
 
 export default {
     props:{
-        showSort:{
-            type:Boolean,
-            default:true,
-        },
-        productList:{
+        couponList:{
             //验证父组件传过来的数据的合法性 是否是Array类型
             type:Array,
             default:function(){
@@ -29,7 +24,7 @@ export default {
         }
     },
     components:{
-        ProductItem,
+        'v-couponitem':CouponItem,
        
     },
 
@@ -55,7 +50,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .product-list{
+    .coupon-list{
         margin-top:0px;
         padding-top:0px;
     }

@@ -47,7 +47,7 @@ export default {
             width:4px;
             border-radius: 4px;
             //box-shadow: 0 0 2px 1px @color-gray-shadow;
-            background: @color-red-background;
+            background: @color-blue-background;
         }
     }
      .bold{

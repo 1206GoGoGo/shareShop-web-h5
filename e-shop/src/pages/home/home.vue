@@ -32,7 +32,7 @@
                 <van-swipe-item  v-for="(pageIndex,index) in Math.ceil(categorySwipeData.length/10)" :key="index">
                     <category-list-detail-item v-for="(item) in (Math.floor(categorySwipeData.length/10)>=pageIndex?10:(categorySwipeData.length-(pageIndex-1)*10))"
                     :key="item" 
-                    circle
+                    
                     :categoryItemData="categorySwipeData[(pageIndex-1)*10 + item - 1]"> 
                     {{(pageIndex-1)*10 + item - 1}}
                     </category-list-detail-item>
@@ -259,12 +259,12 @@ export default {
         box-shadow:0 0 2px 0px #cfcfcf;
 
         //border:1px solid #35404d;
-        color:#35404d;
         .van-icon{
             height:18px;
             margin-top:5px;
             font-size:18px;
             display: block;
+            
         }
         .tips{
             margin-top:-5px;
@@ -282,7 +282,7 @@ export default {
         padding-top:10px;
         .ad-swipe-menu{
             height:150px;
-            background-color:@color-red-font;
+            background-color:#f5f5f;
             .ad-img{
                 height:150px;
                 width:100%;
@@ -304,7 +304,7 @@ export default {
                             width:40px;
                             height:40px;
                             
-                            border:2px solid @color-red-font;
+                            //border:1px solid #0065ff;
                            
                         }
                     }
@@ -327,7 +327,7 @@ export default {
                     background-color:@color-gray-transparent-background;
                 }
                 .van-swipe__indicator--active{
-                    background-color:@color-red-background;
+                    background-color:@color-blue-background;
                 }
             }
 
@@ -359,12 +359,12 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            //background-color:@color-red-background;
+            //background-color:@color-blue-background;
             padding:0 20px;
             &>div{
                 width:33%;
                 text-align:center;
-                //background-color:@color-red-background;
+                //background-color:@color-blue-background;
                 img{
                     width:50px;
                     height:50px;
