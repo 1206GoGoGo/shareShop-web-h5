@@ -5,8 +5,11 @@
         </div>
         <van-tabbar v-model="currentTab">
             <van-tabbar-item icon="wap-home" to="/home">Home</van-tabbar-item>
-            <van-tabbar-item icon="shopping-cart"  to="/cart">Cart</van-tabbar-item>
-            <van-tabbar-item icon="manager" to="/mine">Mine</van-tabbar-item>
+            <!-- 我就为了把两个图标从实底改成空心底，折腾了两小时！！！！
+            在icon后加-o就行
+             -->
+            <van-tabbar-item icon="shopping-cart-o"  to="/cart">Cart</van-tabbar-item>
+            <van-tabbar-item icon="manager-o" to="/mine">Mine</van-tabbar-item>
         </van-tabbar>
 
     </div>  

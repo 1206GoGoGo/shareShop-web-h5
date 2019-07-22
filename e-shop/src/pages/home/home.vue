@@ -43,7 +43,7 @@
 
 
 
-
+            <!-- 首页优惠券 -->
             <panel-with-title bold-title title="Coupons" class="coupons">
                 <div slot="main">
                     <div v-if="couponsData!=[]" class="tag-1">
@@ -56,7 +56,7 @@
 
 
 
-
+            <!-- 首页Hot Sale -->
              <panel-with-title bold-title title="Hot Sale">
                 <div slot="main">
                     <hot-sale></hot-sale>

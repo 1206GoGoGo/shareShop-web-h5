@@ -60,8 +60,7 @@ export default {
 
         }
     },
-
-    mounted:function(){
+    created:function(){
 
         this.getProductListInCart();
 
@@ -305,6 +304,7 @@ export default {
             height:@submit-bar-height;
             line-height:@submit-bar-height;
             background-color:@color-blue-background;
+            border: 1px solid @color-blue;
         }
 
         .van-checkbox{
